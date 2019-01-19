@@ -106,6 +106,7 @@ export default {
   color: #1565c0;
   font-weight: bold;
   width: 70px;
+  box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
 }
 
 .action-btn:hover {
