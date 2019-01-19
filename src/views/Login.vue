@@ -1,5 +1,5 @@
 <template>
-  <div class="home-guest">
+  <div class="login">
     <div class="card">
       <h2>...</h2>
       <form>
@@ -20,7 +20,7 @@ export default {
 </script>
 
 <style scoped>
-.home-guest {
+.login {
   height: 100vh;
   background-color: pink;
 
@@ -29,6 +29,7 @@ export default {
   justify-content: center;
   align-items: center;
 }
+
 .card {
   height: 40vh;
   padding: 2em;
