@@ -6,6 +6,7 @@
         v-for="bookSell in booksSell"
         :key="bookSell._id"
         v-bind:book="bookSell"
+        v-bind:type="sell"
       />
     </div>
     <div class="box" v-if="booksBuy.length != 0">
@@ -14,6 +15,7 @@
         v-for="bookBuy in booksBuy"
         :key="bookBuy._id"
         v-bind:book="bookBuy"
+        type="buy"
       />
     </div>
   </div>
@@ -63,7 +65,7 @@ export default {
 }
 
 .box {
-  margin: 10px 30px;
+  margin: 20px 30px;
 }
 
 .title {

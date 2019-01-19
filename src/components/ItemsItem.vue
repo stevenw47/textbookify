@@ -3,22 +3,40 @@
     <div class="item-header">
       <table class="item-table">
         <tr>
-          <td class="item-name">{{ book.title }}, {{ book.course_code }}</td>
-          <td class="item-price">${{ book.price }}</td>
-          <td class="item-options">...</td>
+          <td class="item-name">{{ book.title }}<span class="grey">, {{ book.course_code }}</span></td>
+          <td class="item-price"><span v-show="type!='buy'">${{ book.price }}</span></td>
+          <td class="item-options">
+            <button class="options-btn" v-on:click="">
+              <i class="fas fa-bars"></i>
+            </button>
+          </td>
         </tr>
       </table>
     </div>
     <div class="item-contents">
-      <div class="item-content" v-for="match in matches" :key=match._id>
-        <table class="content-table">
-          <tr>
-            <td class="content-edition">{{ match.edition }} ed</td>
-            <td class="content-user">{{ match.user.user_name }}</td>
-            <td class="content-contact">{{ match.user.contact }}</td>
-          </tr>
-        </table>
-      </div>
+      <template v-if="matches.length!=0">
+        <div class="item-content" v-for="match in matches" :key=match._id>
+          <table class="content-table">
+            <tr class="content-table-header">
+              <td>Edition</td>
+              <td>User</td>
+              <td>Email</td>
+              <td><span v-show="type=='buy'">Price</span></td>
+            </tr>
+            <tr>
+              <td class="content-edition">{{ match.edition }}</td>
+              <td class="content-user">{{ match.user.user_name }}</td>
+              <td class="content-contact">{{ match.user.contact }}</td>
+              <td class="content-price"><span v-show="type=='buy'">${{ match.price }}</span></td>
+            </tr>
+          </table>
+        </div>
+      </template>
+      <template v-else>
+        <div class="item-content">
+          <span class="no-matches">You have no matches <i class="far fa-frown"></i>.</span>
+        </div>
+      </template>
     </div>
   </div>
 </template>
@@ -28,7 +46,7 @@ import axios from 'axios';
 import { mapState } from 'vuex';
 
 export default {
-  props: ['book'],
+  props: ['type', 'book'],
   data: function () {
     return {
       matches: [],
@@ -45,6 +63,7 @@ export default {
     })
     .then(response => {
       this.matches = response.data;
+      console.log(matches);
     })
     .catch(err => {console.log(err)});
   },
@@ -52,6 +71,10 @@ export default {
 </script>
 
 <style scoped>
+.grey {
+  color: grey;
+}
+
 .items-item {
   margin: 5px;
   display: flex;
@@ -64,6 +87,7 @@ export default {
   width: 100%;
 }
 .item-name {
+  font-weight: bold;
   width: 80%;
 }
 .item-price {
@@ -82,6 +106,11 @@ export default {
 }
 .content-table {
   width: 95%;
+  text-align: left;
+}
+.content-table-header {
+  color: grey;
+  font-size: 12px;
 }
 .content-edition {
   width: 10%;
@@ -90,6 +119,22 @@ export default {
   width: 40%;
 }
 .content-contact {
-  width: 50%;
+  width: 40%;
+}
+.content-price {
+  width: 10%;
+}
+
+.options-btn {
+  background-color: white;
+  border: 0;
+  color: #1565c0;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.no-matches {
+  font-size: 12px;
+  color: grey;
 }
 </style>
