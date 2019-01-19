@@ -1,5 +1,5 @@
 <template>
-  <div class="market-analytics">
+  <div class="market-analytics" id="market-analytics">
     <div class="demand analytics-box">
       <h3>High Demand Items</h3>
       <div class="header">
@@ -7,19 +7,54 @@
         <div class="item-name">Name</div>
         <div class="item-quantity"># buyers</div>
       </div>
-      <div class="item">
-        <div class="item-number">1</div>
-        <div class="item-name">Microeconomics, ECON101</div>
-        <div class="item-quantity">20</div>
+      <div v-for="(item, i) in demand" :key="i" class="item">
+        <div class="item-number">•</div>
+        <div class="item-name">
+          {{item._id.title}}<span class="grey">, {{item._id.course_code}}</span>
+        </div>
+        <div class="item-quantity">{{item.count}}</div>
       </div>
     </div>
+    <hr>
     <div class="supply analytics-box">
       <h3>High Supply Items</h3>
+      <div class="header">
+        <div class="item-number"></div>
+        <div class="item-name">Name</div>
+        <div class="item-quantity"># sellers</div>
+      </div>
+      <div v-for="(item, i) in supply" :key="i" class="item">
+        <div class="item-number">•</div>
+        <div class="item-name">
+          {{item._id.title}}<span class="grey">, {{item._id.course_code}}</span>
+        </div>
+        <div class="item-quantity">{{item.count}}</div>
+      </div>
+    </div>
     </div>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+export default {
+  // components: {
+  // },
+  data() {
+    return {
+      demand: [],
+      supply: []
+    };
+  },
+
+  created() {
+    axios.get("http://localhost:3000/analytics").then(({ data }) => {
+      console.log(data);
+      this.demand = data.demand;
+      this.supply = data.supply;
+    });
+  }
+};
 </script>
 
 <style scoped>
@@ -40,6 +75,12 @@ h3 {
   padding: 5px 0;
 }
 
+hr {
+  color: grey;
+  margin: 15px 5px;
+  border: 0.3px solid lightgrey;
+}
+
 .header {
   display: flex;
   color: grey;
@@ -56,12 +97,16 @@ h3 {
 }
 
 .item-name {
-  flex: 15;
+  flex: 12;
+  display: inline-block;
+}
+
+.grey {
+  color: grey;
 }
 
 .item-quantity {
   flex: 4;
   text-align: center;
 }
-
 </style>
