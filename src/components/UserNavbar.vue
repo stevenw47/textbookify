@@ -18,7 +18,7 @@
             <i class="fas fa-info-circle" style="color: white;"></i><p class="analytics"><strong>10</strong> copies were sold in the past week.</p>
           </template>
           <template slot="footer">
-           <button v-on:click="handleSubmit">Submit</button>
+           <button class="action-btn" v-on:click="handleSubmit">Submit</button>
         </template>
       </ActionModal>
       <ActionModal v-show="isSellingItem" v-on:close="closeSellModal">
@@ -41,7 +41,7 @@
             <i class="fas fa-info-circle" style="color: white;"></i><p class="analytics"><strong>10</strong> copies were sold in the past week.</p>
          </template>
         <template slot="footer">
-          <button v-on:click="handleSubmit">Submit</button>
+          <button class="action-btn" v-on:click="handleSubmit">Submit</button>
         </template>
       </ActionModal>
       <div class="buttons">
@@ -147,7 +147,7 @@ export default {
 }
 
 .action-btn:hover {
-  background-color: transparent;
+  background-color: #1565c0;
   border: 1px solid white;
   border-radius: 10px;
   padding: 0.5em 1em;
