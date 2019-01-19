@@ -51,5 +51,6 @@ h2 {
   width: 60vw;
   border: 1.5px solid #1565c0;
   border-radius: 2em;
+  box-shadow: 1px 1px 10px rgba(0,0,0,0.3);
 }
 </style>

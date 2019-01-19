@@ -67,7 +67,7 @@ export default {
 
 .analytics-box {
   padding: 10px;
-  min-width: 25vw;
+  width: 26vw;
 }
 
 h3 {

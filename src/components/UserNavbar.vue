@@ -49,7 +49,7 @@
         <button class="action-btn" v-on:click="showSellModal">SELL</button>
       </div>
     </div>
-    <div class="profile">Hi, Sherry</div>
+    <div class="profile">Hi, {{ this.$store.state.userName }}</div>
   </div>
 </template>
 
@@ -120,6 +120,7 @@ export default {
   height: 250px;
   font-family: Montserrat;
   color: white;
+  box-shadow: 10px 5px 10px rgba(0,0,0,0.3);
 }
 
 .title {
