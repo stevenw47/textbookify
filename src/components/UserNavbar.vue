@@ -1,7 +1,7 @@
 <template>
   <div class="user-navbar">  
-    <div>
-      logo
+    <div class="title">
+      textbookify
     </div>
     <div>
       <ActionModal
@@ -33,12 +33,12 @@
         </template>
       </ActionModal>
       <div class="buttons">
-        <button class="action-btn" v-on:click="showBuyModal">Buy</button>
-        <button class="action-btn" v-on:click="showSellModal">Sell</button>
+        <button class="action-btn" v-on:click="showBuyModal">BUY</button>
+        <button class="action-btn" v-on:click="showSellModal">SELL</button>
       </div>
     </div>
-    <div>
-      hi, person!
+    <div class="profile">
+      Hi, Sherry
     </div>
   </div>
 </template>
@@ -76,25 +76,42 @@ export default {
 .user-navbar {
   width: 100vw;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
+  background-color: #1565c0;
+  height: 250px;
+  font-family: Montserrat;
+  color: white;
+}
 
-  background-color: #88CCF1;
-  min-height: 8vh;
+.title {
+  font-size: 70px; 
+  padding: 20px;
 }
 
 .buttons {
-  min-width: 20vw;
+  min-width: 220px;
   display: flex;
   justify-content: space-between;
 }
 
 .action-btn {
-  background-color: #3F8EFC;
+  background-color: white;
   border: none;
+  border-radius: 10px;
   padding: 0.5em 1em;
   cursor: pointer;
   text-align: center;
+  color: #1565c0;
+  font-weight: bold;
+  width: 70px;
+}
+
+.profile {
+  position: absolute;
+  top: 20px;
+  right: 40px;
+  color: white;
 }
 </style>
