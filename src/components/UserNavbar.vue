@@ -120,6 +120,7 @@ export default {
   height: 250px;
   font-family: Montserrat;
   color: white;
+  box-shadow: 10px 5px 10px rgba(0,0,0,0.3);
 }
 
 .title {
