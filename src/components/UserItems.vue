@@ -1,6 +1,6 @@
 <template>
-  <div class="user-analytics">
-    analytics here
+  <div class="user-items">
+    items here
   </div>
 </template>
 
@@ -8,9 +8,7 @@
 </script>
 
 <style scoped>
-.user-analytics {
-  min-height: 20vh;
+.user-items {
   background-color: #88CCF1;
 }
-
 </style>
