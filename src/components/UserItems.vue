@@ -1,11 +1,13 @@
 <template>
   <div class="user-items">
     <div class="box">
-      <h4 class="title">Selling</h4>
+      <h4 class="title">SELLING</h4>
+      <ItemsItem/>
       <ItemsItem/>
     </div>
     <div class="box">
-      <h4 class="title">Buying</h4>
+      <h4 class="title">BUYING</h4>
+      <ItemsItem/>
     </div>
   </div>
 </template>
@@ -23,11 +25,13 @@ export default {
 .user-items {
   display: flex;
   flex-direction: column;
-
-  border: 1.5px solid #1565c0;
 }
 
 .box {
   margin: 10px 30px;
+}
+
+.title {
+  color: #1565c0;
 }
 </style>

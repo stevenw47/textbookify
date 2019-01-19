@@ -22,22 +22,24 @@ export default {
 
 <style scoped>
 .home-user {
-  height: 105vh;
+  /*height: 105vh;*/
   background-color: white;
 
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  margin: -5vh 0;
+  /*margin: -5vh 0;*/
 }
 
 .item {
-  margin: 5vh 0;
+  /*margin: 5vh 0;*/
 }
 
 .block {
-  width: 80vw;
-  border-radius: 0.2em;
+  width: 60vw;
+  border: 1.5px solid #1565c0;
+  border-radius: 2em;
+  margin-top: 8vh;
 }
 </style>
