@@ -3,7 +3,7 @@
     <div class="title">
       textbookify
     </div>
-    <div>
+    <div class="nav-item">
       <ActionModal
         v-show="isBuyingItem"
         v-on:close="closeBuyModal"
