@@ -5,7 +5,9 @@
 </template>
 
 <style>
+/* Import custom fonts. */
 @import url('https://rsms.me/inter/inter-ui.css');
+@import url('https://fonts.googleapis.com/css?family=Montserrat:300,400,500');
 @supports (font-variation-settings: normal) {
   body { font-family: 'Inter UI var alt', sans-serif; }
 }
