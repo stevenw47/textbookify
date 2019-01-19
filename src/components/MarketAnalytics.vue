@@ -7,10 +7,12 @@
         <div class="item-name">Name</div>
         <div class="item-quantity"># buyers</div>
       </div>
-      <div v-for="todo in todos" :key="todo.id">
-        <div class="item-number">	• </div>
-        <div class="item-name">{{todo.text}}</div>
-        <div class="item-quantity">20</div>
+      <div v-for="(item, i) in demand" :key="i" class="item">
+        <div class="item-number">•</div>
+        <div class="item-name">
+          {{item._id.title}}<span class="grey">, {{item._id.course_code}}</span>
+        </div>
+        <div class="item-quantity">{{item.count}}</div>
       </div>
     </div>
     <hr>
@@ -21,55 +23,38 @@
         <div class="item-name">Name</div>
         <div class="item-quantity"># sellers</div>
       </div>
-      <div class="item">
-        <div class="item-number">	• </div>
-        <div class="item-name">Microeconomics, ECON101</div>
-        <div class="item-quantity">20</div>
+      <div v-for="(item, i) in supply" :key="i" class="item">
+        <div class="item-number">•</div>
+        <div class="item-name">
+          {{item._id.title}}<span class="grey">, {{item._id.course_code}}</span>
+        </div>
+        <div class="item-quantity">{{item.count}}</div>
       </div>
-      <div class="item">
-        <div class="item-number">	• </div>
-        <div class="item-name">Microeconomics, ECON101</div>
-        <div class="item-quantity">20</div>
-      </div>
-      <div class="item">
-        <div class="item-number">	• </div>
-        <div class="item-name">Microeconomics, ECON101</div>
-        <div class="item-quantity">20</div>
-      </div>
-      <div class="item">
-        <div class="item-number">	• </div>
-        <div class="item-name">Microeconomics, ECON101</div>
-        <div class="item-quantity">20</div>
-      </div>
-      <div class="item">
-        <div class="item-number">	• </div>
-        <div class="item-name">Microeconomics, ECON101</div>
-        <div class="item-quantity">20</div>
-      </div>
+    </div>
     </div>
   </div>
 </template>
 
 <script>
-  import axios from 'axios';
-  export default {
-    // components: {
-    // },
-    data() {
-      return {
-        todos: [
-          { text: 'Learn JavaScript' },
-          { text: 'Learn Vue' },
-          { text: 'Build something awesome' }
-        ]
-      }
-    },
+import axios from "axios";
+export default {
+  // components: {
+  // },
+  data() {
+    return {
+      demand: [],
+      supply: []
+    };
+  },
 
-    mounted() {
-      
-    }
-
+  created() {
+    axios.get("http://localhost:3000/analytics").then(({ data }) => {
+      console.log(data);
+      this.demand = data.demand;
+      this.supply = data.supply;
+    });
   }
+};
 </script>
 
 <style scoped>
@@ -113,11 +98,15 @@ hr {
 
 .item-name {
   flex: 12;
+  display: inline-block;
+}
+
+.grey {
+  color: grey;
 }
 
 .item-quantity {
   flex: 4;
   text-align: center;
 }
-
 </style>
