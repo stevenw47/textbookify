@@ -91,7 +91,7 @@ export default {
 }
 
 .buttons {
-  min-width: 220px;
+  min-width: 200px;
   display: flex;
   justify-content: space-between;
 }

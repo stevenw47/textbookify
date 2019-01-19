@@ -24,6 +24,12 @@ app.post('/addition', (req, res) => {
   res.send('added book to database')
 })
 
+app.get('/books', (req, res) => {
+  db.collection('books')
+    .find({ 'user.user_id': 1 })
+    .toArray()
+    .then(arr => res.send(arr));
+})
 
 function getMatches(courseCode, buy) {
   const findBuy = !(buy === 'true');
