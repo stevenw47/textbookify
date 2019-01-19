@@ -99,6 +99,7 @@ app.get('/analytics', async (req, res) => {
       }},
       { $sort: { count: -1 } }
     ])
+    .limit(5)
     .toArray()
   res.send({demand, supply});
 })

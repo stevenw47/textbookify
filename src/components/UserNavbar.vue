@@ -136,8 +136,8 @@ export default {
 
 .action-btn {
   background-color: white;
-  border: 1px solid transparent;
   border-radius: 10px;
+  border: none;
   padding: 0.5em 1em;
   cursor: pointer;
   text-align: center;
@@ -145,18 +145,13 @@ export default {
   font-weight: bold;
   width: 70px;
   box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+
+  transition: background 100ms ease-in-out;
 }
 
 .action-btn:hover {
-  background-color: transparent;
-  border: 1px solid white;
-  border-radius: 10px;
-  padding: 0.5em 1em;
-  cursor: pointer;
-  text-align: center;
-  color: white;
-  font-weight: bold;
-  width: 70px;
+  /* background-color: #dcedff; */
+  background-color: #e9edff;
 }
 
 .profile {
