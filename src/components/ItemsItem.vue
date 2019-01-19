@@ -1,33 +1,42 @@
 <template>
   <div class="items-item">
     <div class="item-header">
-      <div class="item-name">
-        <!-- Microeconomics 5th ed, ECON101 -->
-        {{ book.title }}, {{ book.course_code }}
-      </div>
-      <div class="item-price">
-        <!-- $50 -->
-        ${{ book.price }}
-      </div>
-      <div class="item-options">
-        ...
-      </div>
+      <table class="item-table">
+        <tr>
+          <td class="item-name">{{ book.title }}<span class="grey">, {{ book.course_code }}</span></td>
+          <td class="item-price"><span v-show="type!='buy'">${{ book.price }}</span></td>
+          <td class="item-options">
+            <button class="options-btn" v-on:click="">
+              <i class="fas fa-bars"></i>
+            </button>
+          </td>
+        </tr>
+      </table>
     </div>
     <div class="item-contents">
-      <div class="item-content" v-for="match in matches" :key=match._id>
-        <div class="content-edition">
-          <!-- 5th ed -->
-          {{ match.edition }} ed
+      <template v-if="matches.length!=0">
+        <div class="item-content" v-for="match in matches" :key=match._id>
+          <table class="content-table">
+            <tr class="content-table-header">
+              <td>Edition</td>
+              <td>User</td>
+              <td>Email</td>
+              <td><span v-show="type=='buy'">Price</span></td>
+            </tr>
+            <tr>
+              <td class="content-edition">{{ match.edition }}</td>
+              <td class="content-user">{{ match.user.user_name }}</td>
+              <td class="content-contact">{{ match.user.contact }}</td>
+              <td class="content-price"><span v-show="type=='buy'">${{ match.price }}</span></td>
+            </tr>
+          </table>
         </div>
-        <div class="content-user">
-          <!-- Hannah Wang -->
-          {{ match.user.user_name }}
+      </template>
+      <template v-else>
+        <div class="item-content">
+          <span class="no-matches">You have no matches <i class="far fa-frown"></i>.</span>
         </div>
-        <div class="content-contact">
-          <!-- hannah@gmail.com -->
-          {{ match.user.contact }}
-        </div>
-      </div>
+      </template>
     </div>
   </div>
 </template>
@@ -37,7 +46,7 @@ import axios from 'axios';
 import { mapState } from 'vuex';
 
 export default {
-  props: ['book'],
+  props: ['type', 'book'],
   data: function () {
     return {
       matches: [],
@@ -54,6 +63,7 @@ export default {
     })
     .then(response => {
       this.matches = response.data;
+      console.log(matches);
     })
     .catch(err => {console.log(err)});
   },
@@ -61,45 +71,70 @@ export default {
 </script>
 
 <style scoped>
+.grey {
+  color: grey;
+}
+
 .items-item {
   margin: 5px;
   display: flex;
   flex-direction: column;
 }
-
 .item-header {
-  display: flex;
-  justify-content: space-around;
+  width: 100%;
 }
-
+.item-table {
+  width: 100%;
+}
 .item-name {
-  flex: 6 1 auto;
+  font-weight: bold;
+  width: 80%;
 }
 .item-price {
-  flex: 1 1 auto;
+  width: 10%;
 }
 .item-options {
-  flex: 1 1 auto;
+  width: 10%;
 }
 
 .item-contents {
-  margin: 5px 8px;
-  display: flex;
-  flex-direction: column;
+  width: 100%;
 }
 .item-content {
   display: flex;
   justify-content: space-around;
 }
-
+.content-table {
+  width: 95%;
+  text-align: left;
+}
+.content-table-header {
+  color: grey;
+  font-size: 12px;
+}
 .content-edition {
-  flex: 1 1 auto;
+  width: 10%;
 }
 .content-user {
-  flex: 3 1 auto;
+  width: 40%;
 }
 .content-contact {
-  flex: 4 1 auto;
+  width: 40%;
+}
+.content-price {
+  width: 10%;
 }
 
+.options-btn {
+  background-color: white;
+  border: 0;
+  color: #1565c0;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.no-matches {
+  font-size: 12px;
+  color: grey;
+}
 </style>

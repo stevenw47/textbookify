@@ -18,7 +18,7 @@
             <i class="fas fa-info-circle" style="color: white;"></i><p class="analytics"><strong>10</strong> copies were sold in the past week.</p>
           </template>
           <template slot="footer">
-           <button v-on:click="handleSubmit">Submit</button>
+           <button class="action-btn" v-on:click="handleSubmit">Submit</button>
         </template>
       </ActionModal>
       <ActionModal v-show="isSellingItem" v-on:close="closeSellModal">
@@ -41,7 +41,7 @@
             <i class="fas fa-info-circle" style="color: white;"></i><p class="analytics"><strong>10</strong> copies were sold in the past week.</p>
          </template>
         <template slot="footer">
-          <button v-on:click="handleSubmit">Submit</button>
+          <button class="action-btn" v-on:click="handleSubmit">Submit</button>
         </template>
       </ActionModal>
       <div class="buttons">
@@ -49,7 +49,7 @@
         <button class="action-btn" v-on:click="showSellModal">SELL</button>
       </div>
     </div>
-    <div class="profile">Hi, Sherry</div>
+    <div class="profile">Hi, {{ this.$store.state.userName }}</div>
   </div>
 </template>
 
@@ -150,8 +150,15 @@ export default {
 }
 
 .action-btn:hover {
-  /* background-color: #dcedff; */
   background-color: #e9edff;
+  border: 1px solid white;
+  border-radius: 10px;
+  padding: 0.5em 1em;
+  cursor: pointer;
+  text-align: center;
+  color: white;
+  font-weight: bold;
+  width: 70px;
 }
 
 .profile {
