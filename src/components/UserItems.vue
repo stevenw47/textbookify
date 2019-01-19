@@ -1,6 +1,5 @@
 <template>
   <div class="user-items">
-    items here
   </div>
 </template>
 
