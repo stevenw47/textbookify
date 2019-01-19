@@ -29,7 +29,7 @@ app.post('/addition', (req, res) => {
 
 app.get('/books', (req, res) => {
   db.collection('books')
-    .find({ 'user.user_id': 1 })
+    .find({ 'user.user_id': 1, 'date_sold': null })
     .toArray()
     .then(arr => res.send(arr));
 })
