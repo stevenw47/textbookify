@@ -4,6 +4,12 @@
   </div>
 </template>
 
+<!-- <script>
+export default {
+  store,
+};
+</script> -->
+
 <style>
 /* Import custom fonts. */
 @import url('https://rsms.me/inter/inter-ui.css');
