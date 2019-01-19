@@ -13,10 +13,26 @@
 </template>
 
 <script>
+import axios from 'axios';
 import ItemsItem from '@/components/ItemsItem.vue';
+
 export default {
   components: {
     ItemsItem,
+  },
+  mounted: function () {
+    axios.get('http://localhost:3000/books', {
+      // params: {
+      //   user: 1,
+      // },
+    })
+    .then(response => (
+      console.log(response)
+    ))
+    .catch(err => (console.log(err)));
+    // axios
+    //   .get('https://api.coindesk.com/v1/bpi/currentprice.json')
+    //   .then(response => (console.log(response)));
   },
 };
 </script>
