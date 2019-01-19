@@ -1,32 +1,23 @@
 <template>
   <div class="items-item">
     <div class="item-header">
-      <div class="item-name">
-        <!-- Microeconomics 5th ed, ECON101 -->
-        {{ book.title }}, {{ book.course_code }}
-      </div>
-      <div class="item-price">
-        <!-- $50 -->
-        ${{ book.price }}
-      </div>
-      <div class="item-options">
-        ...
-      </div>
+      <table class="item-table">
+        <tr>
+          <td class="item-name">{{ book.title }}, {{ book.course_code }}</td>
+          <td class="item-price">${{ book.price }}</td>
+          <td class="item-options">...</td>
+        </tr>
+      </table>
     </div>
     <div class="item-contents">
       <div class="item-content" v-for="match in matches" :key=match._id>
-        <div class="content-edition">
-          <!-- 5th ed -->
-          {{ match.edition }} ed
-        </div>
-        <div class="content-user">
-          <!-- Hannah Wang -->
-          {{ match.user.user_name }}
-        </div>
-        <div class="content-contact">
-          <!-- hannah@gmail.com -->
-          {{ match.user.contact }}
-        </div>
+        <table class="content-table">
+          <tr>
+            <td class="content-edition">{{ match.edition }} ed</td>
+            <td class="content-user">{{ match.user.user_name }}</td>
+            <td class="content-contact">{{ match.user.contact }}</td>
+          </tr>
+        </table>
       </div>
     </div>
   </div>
@@ -66,40 +57,39 @@ export default {
   display: flex;
   flex-direction: column;
 }
-
 .item-header {
-  display: flex;
-  justify-content: space-around;
+  width: 100%;
 }
-
+.item-table {
+  width: 100%;
+}
 .item-name {
-  flex: 6 1 auto;
+  width: 80%;
 }
 .item-price {
-  flex: 1 1 auto;
+  width: 10%;
 }
 .item-options {
-  flex: 1 1 auto;
+  width: 10%;
 }
 
 .item-contents {
-  margin: 5px 8px;
-  display: flex;
-  flex-direction: column;
+  width: 100%;
 }
 .item-content {
   display: flex;
   justify-content: space-around;
 }
-
+.content-table {
+  width: 95%;
+}
 .content-edition {
-  flex: 1 1 auto;
+  width: 10%;
 }
 .content-user {
-  flex: 3 1 auto;
+  width: 40%;
 }
 .content-contact {
-  flex: 4 1 auto;
+  width: 50%;
 }
-
 </style>

@@ -34,9 +34,6 @@ export default {
   ]),
   mounted: function () {
     axios.get('http://localhost:3000/books', {
-      // params: {
-      //   user: 1,
-      // },
     })
     .then(response => {
       console.log(response);
@@ -53,8 +50,6 @@ export default {
           });
         }
       }
-      // console.log(this.$store.state.booksBuy);
-      // console.log(this.$store.state.booksSell);
     })
     .catch(err => {console.log(err)});
   },

@@ -49,7 +49,7 @@
         <button class="action-btn" v-on:click="showSellModal">SELL</button>
       </div>
     </div>
-    <div class="profile">Hi, Sherry</div>
+    <div class="profile">Hi, {{ this.$store.state.userName }}</div>
   </div>
 </template>
 
