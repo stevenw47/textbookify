@@ -1,9 +1,12 @@
 <template>
   <div class="user-navbar">  
-    <div>
-      logo
+    <div class="nav-item">
+      hi
     </div>
-    <div>
+    <div class="nav-item">
+      <p class="name">textbookify</p>
+    </div>
+    <div class="nav-item">
       <ActionModal
         v-show="isBuyingItem"
         v-on:close="closeBuyModal"
@@ -32,13 +35,10 @@
           submit
         </template>
       </ActionModal>
-      <div class="buttons">
+      <div class="buttons-row">
         <button class="action-btn" v-on:click="showBuyModal">Buy</button>
         <button class="action-btn" v-on:click="showSellModal">Sell</button>
       </div>
-    </div>
-    <div>
-      hi, person!
     </div>
   </div>
 </template>
@@ -76,25 +76,34 @@ export default {
 .user-navbar {
   width: 100vw;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: space-evenly;
   align-items: center;
 
-  background-color: #88CCF1;
-  min-height: 8vh;
+  background-color: #1565c0;
+  color: white;
 }
 
-.buttons {
-  min-width: 20vw;
+.nav-item {
+  margin: 1.1em 0;
+}
+
+.name {
+  font-size: 60px;
+}
+
+.buttons-row {
+  min-width: 12vw;
   display: flex;
   justify-content: space-between;
 }
 
 .action-btn {
-  background-color: #3F8EFC;
+  background-color: white;
+  color: #1565c0;
   border: none;
+  border-radius: 0.5em;
   padding: 0.5em 1em;
   cursor: pointer;
-  text-align: center;
 }
 </style>
