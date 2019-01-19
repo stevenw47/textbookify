@@ -98,12 +98,24 @@ export default {
 
 .action-btn {
   background-color: white;
-  border: none;
+  border: 1px solid transparent;
   border-radius: 10px;
   padding: 0.5em 1em;
   cursor: pointer;
   text-align: center;
   color: #1565c0;
+  font-weight: bold;
+  width: 70px;
+}
+
+.action-btn:hover {
+  background-color: transparent;
+  border: 1px solid white;
+  border-radius: 10px;
+  padding: 0.5em 1em;
+  cursor: pointer;
+  text-align: center;
+  color: white;
   font-weight: bold;
   width: 70px;
 }
