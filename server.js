@@ -33,3 +33,27 @@ app.delete('/delete', (req, res) => {
       .update({ _id: book}, { $set: { date_sold: new Date() }}));
   res.send('deleted book')
 })
+
+app.get('/analytics', async (req, res) => {
+  const demand = await db.collection('books')
+    .aggregate([
+      { $match: { buy: true }},
+      { $group: {
+        _id: { course_code: "$course_code", title: "$title" },
+        count: { $sum: 1}
+      }},
+      { $sort: { count: -1 } }
+    ])
+    .toArray()
+  const supply = await db.collection('books')
+    .aggregate([
+      { $match: { buy: false }},
+      { $group: {
+        _id: { course_code: "$course_code", title: "$title" },
+        count: { $sum: 1}
+      }},
+      { $sort: { count: -1 } }
+    ])
+    .toArray()
+  res.send({demand, supply});
+})
