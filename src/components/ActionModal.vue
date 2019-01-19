@@ -67,7 +67,7 @@ export default {
   min-width: 35vw;
   /*min-height: 50vh;*/
   background: #FFFFFF;
-  box-shadow: 2px 2px 20px 1px;
+  box-shadow: 2px 2px 20px 1px rgba(0, 0, 0, 0.3);
   overflow-x: auto;
   display: flex;
   flex-direction: column;

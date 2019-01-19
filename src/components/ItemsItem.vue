@@ -2,47 +2,30 @@
   <div class="items-item">
     <div class="item-header">
       <div class="item-name">
-        Microeconomics 5th ed, ECON101
+        <!-- Microeconomics 5th ed, ECON101 -->
+        {{ book.title }}, {{ book.course_code }}
       </div>
       <div class="item-price">
-        $50
+        <!-- $50 -->
+        ${{ book.price }}
       </div>
       <div class="item-options">
         ...
       </div>
     </div>
     <div class="item-contents">
-      <div class="item-content">
+      <div class="item-content" v-for="match in matches" :key=match._id>
         <div class="content-edition">
-          5th ed
+          <!-- 5th ed -->
+          {{ match.edition }} ed
         </div>
         <div class="content-user">
-          Hannah Wang
+          <!-- Hannah Wang -->
+          {{ match.user.user_name }}
         </div>
         <div class="content-contact">
-          hannah@gmail.com
-        </div>
-      </div>
-      <div class="item-content">
-        <div class="content-edition">
-          5th ed
-        </div>
-        <div class="content-user">
-          Hannah Wang
-        </div>
-        <div class="content-contact">
-          hannah@gmail.com
-        </div>
-      </div>
-      <div class="item-content">
-        <div class="content-edition">
-          5th ed
-        </div>
-        <div class="content-user">
-          Hannah Wang
-        </div>
-        <div class="content-contact">
-          hannah@gmail.com
+          <!-- hannah@gmail.com -->
+          {{ match.user.contact }}
         </div>
       </div>
     </div>
@@ -50,6 +33,31 @@
 </template>
 
 <script>
+import axios from 'axios';
+import { mapState } from 'vuex';
+
+export default {
+  props: ['book'],
+  data: function () {
+    return {
+      matches: [],
+    };
+  },
+  mounted: function () {
+    axios.get('http://localhost:3000/match', {
+      params: {
+        course_code: this.book.course_code,
+        title: this.book.title,
+        edition: this.book.edition,
+        buy: this.book.buy,
+      },
+    })
+    .then(response => {
+      this.matches = response.data;
+    })
+    .catch(err => {console.log(err)});
+  },
+};
 </script>
 
 <style scoped>
