@@ -1,5 +1,6 @@
 <template>
   <div class="home-user">
+    <UserNavbar></UserNavbar>
     hello :)
   </div>
 </template>
