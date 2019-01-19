@@ -15,14 +15,16 @@
     </div>
     <div class="item-contents">
       <template v-if="matches.length!=0">
-        <div class="item-content" v-for="match in matches" :key=match._id>
+        <div class="item-content" v-for="(match, index) in matches" :key=match._id>
           <table class="content-table">
-            <tr class="content-table-header">
-              <td>Edition</td>
-              <td>User</td>
-              <td>Email</td>
-              <td><span v-show="type=='buy'">Price</span></td>
-            </tr>
+            <template v-if="index==0">
+              <tr class="content-table-header">
+                <td>Edition</td>
+                <td>User</td>
+                <td>Email</td>
+                <td><span v-show="type=='buy'">Price</span></td>
+              </tr>
+            </template>
             <tr>
               <td class="content-edition">{{ match.edition }}</td>
               <td class="content-user">{{ match.user.user_name }}</td>
