@@ -151,14 +151,6 @@ export default {
 
 .action-btn:hover {
   background-color: #e9edff;
-  border: 1px solid white;
-  border-radius: 10px;
-  padding: 0.5em 1em;
-  cursor: pointer;
-  text-align: center;
-  color: white;
-  font-weight: bold;
-  width: 70px;
 }
 
 .profile {
