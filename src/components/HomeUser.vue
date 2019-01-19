@@ -1,20 +1,20 @@
 <template>
   <div class="home-user">
     <UserNavbar class="item"/>
-    <UserAnalytics class="item block"/>
+    <MarketAnalytics class="item block"/>
     <UserItems class="item block"/>
   </div>
 </template>
 
 <script>
 import UserNavbar from '@/components/UserNavbar.vue';
-import UserAnalytics from '@/components/UserAnalytics.vue';
+import MarketAnalytics from '@/components/MarketAnalytics.vue';
 import UserItems from '@/components/UserItems.vue';
 
 export default {
   components: {
     UserNavbar,
-    UserAnalytics,
+    MarketAnalytics,
     UserItems,
   },
 };
