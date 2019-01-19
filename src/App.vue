@@ -16,6 +16,7 @@ body {
   padding: 0;
   margin: 0;
   font-family: 'Inter UI', sans-serif;
+  overflow-x: hidden;
 }
 
 p, h1, h2, h3, h4, h5, h6 {
