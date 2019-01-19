@@ -88,6 +88,7 @@ app.get('/analytics', async (req, res) => {
       }},
       { $sort: { count: -1 } }
     ])
+    .limit(5)
     .toArray()
   const supply = await db.collection('books')
     .aggregate([
