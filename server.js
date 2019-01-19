@@ -3,7 +3,7 @@ const { MongoClient } = require('mongodb');
 const bodyParser = require('body-parser');
 
 const app = express();
-app.use(bodyParser());
+app.use(bodyParser({ extended: true }));
 
 let db;
 
@@ -17,7 +17,7 @@ MongoClient.connect('mongodb://uofthacks:uofthacks6@ds018258.mlab.com:18258/uoft
   });
 
 app.post('/addition', (req, res) => {
-  db.collection('books').save(req.body, (err, result) => {
+  db.collection('books').insertOne(req.body, (err, result) => {
     if (err) return console.log(err)
     console.log('saved to database')
   })
@@ -58,3 +58,38 @@ app.get('/match', (req, res) => {
     res.send(books);
   });
 });
+
+app.delete('/delete', (req, res) => {
+  db.collection('books')
+    .find({ "user.user_id": 1, date_sold: null })
+    .toArray()
+    .then(arr => arr[req.body.index]._id)
+    .then(book => db.collection('books')
+      .update({ _id: book}, { $set: { date_sold: new Date() }}));
+  res.send('deleted book')
+})
+
+app.get('/analytics', async (req, res) => {
+  const demand = await db.collection('books')
+    .aggregate([
+      { $match: { buy: true }},
+      { $group: {
+        _id: { course_code: "$course_code", title: "$title" },
+        count: { $sum: 1}
+      }},
+      { $sort: { count: -1 } }
+    ])
+    .toArray()
+  const supply = await db.collection('books')
+    .aggregate([
+      { $match: { buy: false }},
+      { $group: {
+        _id: { course_code: "$course_code", title: "$title" },
+        count: { $sum: 1}
+      }},
+      { $sort: { count: -1 } }
+    ])
+    .toArray()
+  res.send({demand, supply});
+})
+
