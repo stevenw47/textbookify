@@ -64,6 +64,7 @@ export default {
 .user-items {
   display: flex;
   flex-direction: column;
+  padding-bottom: 15px;
 }
 
 .box {
@@ -72,6 +73,10 @@ export default {
 
 .title {
   color: #1565c0;
+}
+
+h3 {
+  padding-top: 20px;
 }
 
 .itemsitem {

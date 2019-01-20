@@ -1,10 +1,13 @@
 <template>
   <div class="items-item">
+    
     <div class="item-header">
+      <hr>
       <table class="item-table">
+        
         <tr>
           <td class="item-name">{{ book.title }}<span class="grey">, {{ book.course_code }}</span></td>
-          <td class="item-price"><span v-show="type!='buy'">${{ book.price }}</span></td>
+          <td class="item-price"><span v-if="type!='buy'">${{ book.price.toFixed(2) }}</span></td>
           <td class="item-options">
             <button
               class="options-btn"
@@ -18,7 +21,7 @@
     </div>
     <div class="item-contents">
       <template v-if="matches.length">
-        <div class="item-content" v-for="match in matches" :key="match._id" v-on:click="openModal(match)">
+        <div class="item-content" v-for="(match, index) in matches" :key="match._id">
           <table class="content-table">
             <template v-if="index==0">
               <tr class="content-table-header">
@@ -32,11 +35,12 @@
             <tr
               v-on:mouseover="rowHoverIndex = index"
               v-on:mouseleave="rowHoverIndex = -1"
+              v-on:click="openModal(match)"
             >
               <td class="content-edition">{{ match.edition }}</td>
               <td class="content-user" v-on:click="openModal">{{ match.user.user_name }}</td>
               <td class="content-contact">{{ match.user.contact }}</td>
-              <td class="content-price"><span v-show="type=='buy'">${{ match.price }}</span></td>
+              <td class="content-price"><span v-if="type=='buy'">${{ match.price.toFixed(2) }}</span></td>
               <td class="content-button">
                 <i
                   class="far fa-check-circle"
@@ -70,7 +74,7 @@
             <p><span class="gray">Description: </span>{{modal_data.description}}</p>
             <p v-if="!modal_data.buy">
               <span class="gray">Price: </span>
-              ${{modal_data.price}}
+              ${{modal_data.price.toFixed(2)}}
             </p>
             <p v-if="!modal_data.buy" class="gray">Photo:</p>
             <p class="gray" style="padding-bottom: 3px">Contact info:</p>
@@ -101,7 +105,6 @@ export default {
         user: {}
       },
       rowHoverIndex: -1,
-      index: '',
     };
   },
   methods: {
@@ -154,15 +157,17 @@ export default {
 }
 
 .items-item {
-  margin: 5px;
+  margin: 10px;
   display: flex;
   flex-direction: column;
 }
+
 .item-header {
   width: 100%;
 }
 .item-table {
   width: 100%;
+  padding-top: 10px;
 }
 .item-name {
   font-weight: bold;
@@ -173,6 +178,7 @@ export default {
 }
 .item-options {
   width: 10%;
+  text-align: right;
 }
 
 .item-contents {
@@ -181,7 +187,10 @@ export default {
 .item-content {
   display: flex;
   justify-content: space-around;
-  cursor: pointer;
+}
+
+td {
+  padding: 2px;
 }
 
 .modal-backdrop {
@@ -265,20 +274,22 @@ p {
 }
 .content-button {
   width: 10%;
+  text-align: right;
 }
 .content-button:hover {
-  color: lightgreen;
+  color: #1565c0;
+  cursor: pointer;
 }
 
 .options-btn {
   background-color: white;
-  color: grey;
+  color: lightgrey;
   border: 0;
   cursor: pointer;
   font-size: 18px;
 }
 .options-btn:hover {
-  color: red;
+  color: rgba(255, 0, 0, 0.719);
 }
 
 .no-matches {
@@ -295,7 +306,13 @@ p {
   padding: 3px 10px;
 }
 
-i {
+.contact i {
   padding-right: 8px;
+}
+
+hr {
+  color: grey;
+  margin: 15px 5px;
+  border: 0.3px solid lightgrey;
 }
 </style>
