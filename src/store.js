@@ -45,6 +45,8 @@ export default new Vuex.Store({
         })
         .then(response => {
           let data = response.data;
+          state.booksBuy = [];
+          state.booksSell = [];
           for (let i = 0; i < data.length; ++i) {
             if (data[i].buy) {
               context.commit('pushBooksBuy', {
