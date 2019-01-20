@@ -5,11 +5,11 @@
       <table class="item-table">
         <tr>
           <td class="item-name">{{ book.title }}<span class="grey">, {{ book.course_code }}</span></td>
-          <td class="item-price"><span v-show="type!='buy'">${{ book.price }}</span></td>
+          <td class="item-price"><span v-if="type!='buy'">${{ book.price.toFixed(2) }}</span></td>
           <td class="item-options">
             <button
               class="options-btn"
-              v-on:click="cancelBook"
+              v-on:click="cancelBook(book._id)"
             >
               <i class="fas fa-ban"></i>
             </button>
@@ -34,17 +34,16 @@
               class="match-row"
               v-on:mouseover="rowHoverIndex = index"
               v-on:mouseleave="rowHoverIndex = -1"
-              v-on:click="openMatchModal(match)"
             >
-              <td class="content-edition">{{ match.edition }}</td>
-              <td class="content-user">{{ match.user.user_name }}</td>
-              <td class="content-contact">{{ match.user.contact }}</td>
-              <td class="content-price"><span v-show="type=='buy'">${{ match.price }}</span></td>
+              <td class="content-edition" v-on:click="openMatchModal(match)">{{ match.edition }}</td>
+              <td class="content-user" v-on:click="openMatchModal(match)">{{ match.user.user_name }}</td>
+              <td class="content-contact" v-on:click="openMatchModal(match)">{{ match.user.contact }}</td>
+              <td class="content-price" v-on:click="openMatchModal(match)"><span v-if="type=='buy'">${{ match.price.toFixed(2) }}</span></td>
               <td class="content-button">
                 <i
                   class="far fa-check-circle"
                   v-if="isRowHovered(index)"
-                  v-on:click="completeMatch"
+                  v-on:click="completeMatch(book._id, match._id)"
                 ></i>
               </td>
             </tr>
@@ -104,16 +103,17 @@ export default {
     };
   },
   methods: {
-    cancelBook: function () {
+    cancelBook: function (_id) {
       // TODO:
-      console.log(_id);
-      axios.post('http://localhost:3000/delete', {
-        id: _id
-      })
-      console.log(_id)
+      axios.post('http://localhost:3000/delete', { id: _id })
+        .then(() => axios.get('http://localhost:3000/update'))
     },
-    completeMatch: function () { 
-      // TODO:
+    completeMatch: function (bookId, matchId) { 
+
+      axios.post('http://localhost:3000/sold', {
+        id_1: bookId,
+        id_2: matchId,
+      })
     },
     isRowHovered: function (index) {
       return index == this.rowHoverIndex;
@@ -149,7 +149,7 @@ export default {
 }
 
 .items-item {
-  margin: 5px;
+  margin: 10px;
   display: flex;
   flex-direction: column;
 }
@@ -159,6 +159,7 @@ export default {
 .item-table {
   width: 100%;
   border-spacing: 0;
+  padding-top: 10px;
 }
 .item-name {
   font-weight: bold;
@@ -178,6 +179,9 @@ export default {
 .item-content {
   /*display: flex;
   justify-content: space-around;*/
+}
+td {
+  padding: 2px;
 }
 .content-table {
   width: 100%;
@@ -199,6 +203,12 @@ export default {
 }
 .content-price {
   width: 10%;
+}
+.content-edition:hover,	
+.content-user:hover,	
+.content-contact:hover,	
+.content-price:hover {	
+  cursor: pointer;	
 }
 .content-button {
   text-align: center;
@@ -226,7 +236,7 @@ export default {
 }
 
 .match-row:hover {
-  background-color: rgba(128, 128, 128, 0.2);
+  background-color: rgba(220, 220, 220, 0.658);
 }
 
 
@@ -280,6 +290,11 @@ export default {
 }
 p {
   padding: 10px;
+}
+
+.gray {
+  color: grey;
+  font-size: 14px;
 }
 
 hr {
