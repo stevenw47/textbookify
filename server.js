@@ -134,7 +134,7 @@ app.get('/textbook/analytics', (req, res) => {
   const { edition } = req.query;
   getBooksForAnalytics(courseCode, title, edition)
     .then((books) => {
-      const prices = books.map(book => Number(book.price));
+      const prices = books.filter(book => book.date_sold).map(book => Number(book.price));
       const len = prices.length;
       const sum = prices.reduce((acc, elem) => acc + elem, 0);
       res.send(String(sum / len));
