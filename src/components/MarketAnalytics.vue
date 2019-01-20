@@ -65,13 +65,13 @@ export default {
 }
 
 .analytics-box {
-  padding: 10px;
+  padding: 15px 10px;
   width: 26vw;
 }
 
 h3 {
   color: #1565c0;
-  padding: 5px 0;
+  padding: 10px 0;
 }
 
 hr {

@@ -38,7 +38,7 @@
               <td class="content-edition" v-on:click="openMatchModal(match)">{{ match.edition }}</td>
               <td class="content-user" v-on:click="openMatchModal(match)">{{ match.user.user_name }}</td>
               <td class="content-contact" v-on:click="openMatchModal(match)">{{ match.user.contact }}</td>
-              <td class="content-price" v-on:click="openMatchModal(match)"><span v-if="type=='buy'">${{ match.price.toFixed(2) }}</span></td>
+              <td class="content-price" v-on:click="openMatchModal(match)"><span v-if="type!='buy'">${{ match.price.toFixed(2) }}</span></td>
               <td class="content-button">
                 <i
                   class="far fa-check-circle"
@@ -106,7 +106,6 @@ export default {
     cancelBook: function (_id) {
       // TODO:
       axios.post('http://localhost:3000/delete', { id: _id })
-        .then(() => axios.get('http://localhost:3000/update'))
     },
     completeMatch: function (bookId, matchId) { 
 
@@ -290,6 +289,12 @@ td {
 }
 p {
   padding: 10px;
+}
+.contact {	
+  padding: 3px 10px;	
+}
+p > i {
+  padding-right: 5px;
 }
 
 .gray {
