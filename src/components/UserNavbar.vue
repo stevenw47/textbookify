@@ -136,16 +136,18 @@ export default {
     },
     handleSubmit() {
       axios
-        .post("http://localhost:3000/addition", {
-          course_code: this.courseCode,
-          title: this.title,
-          edition: this.edition,
-          description: this.description,
-          picture: this.picture,
-          price: this.price,
-          buy: this.isBuyingItem
-        })
-        .then(res => console.log(res));
+      .post("http://localhost:3000/addition", {
+        course_code: this.courseCode,
+        title: this.title,
+        edition: this.edition,
+        description: this.description,
+        picture: this.picture,
+        price: this.price,
+        buy: this.isBuyingItem
+      })
+      .then(res => {
+        this.$store.dispatch('refreshAllBooks');
+      });
       this.courseCode = null;
       this.title = null;
       this.edition = null;
