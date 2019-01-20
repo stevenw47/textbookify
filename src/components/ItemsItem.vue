@@ -5,7 +5,7 @@
       <table class="item-table">
         <tr>
           <td class="item-name">{{ book.title }}<span class="grey">, {{ book.course_code }}</span></td>
-          <td class="item-price"><span v-if="type!='buy'">${{ book.price.toFixed(2) }}</span></td>
+          <td class="item-price"><span v-if="type!='buy'">${{ parseInt(book.price).toFixed(2) }}</span></td>
           <td class="item-options">
             <button
               class="options-btn"
@@ -38,7 +38,7 @@
               <td class="content-edition" v-on:click="openMatchModal(match)">{{ match.edition }}</td>
               <td class="content-user" v-on:click="openMatchModal(match)">{{ match.user.user_name }}</td>
               <td class="content-contact" v-on:click="openMatchModal(match)">{{ match.user.contact }}</td>
-              <td class="content-price" v-on:click="openMatchModal(match)"><span v-if="type=='buy'">${{ match.price.toFixed(2) }}</span></td>
+              <td class="content-price" v-on:click="openMatchModal(match)"><span v-if="type=='buy'">${{ parseInt(match.price).toFixed(2) }}</span></td>
               <td class="content-button">
                 <i
                   class="far fa-check-circle"
@@ -73,7 +73,7 @@
           <p><span class="gray">Description: </span>{{matchModalData.description}}</p>
           <p v-if="!matchModalData.buy">
             <span class="gray">Price: </span>
-            ${{matchModalData.price.toFixed(2)}}
+            ${{parseInt(matchModalData.price).toFixed(2)}}
           </p>
           <p v-if="!matchModalData.buy" class="gray">Photo:</p>
           <p class="gray" style="padding-bottom: 3px">Contact info:</p>
@@ -104,16 +104,56 @@ export default {
   },
   methods: {
     cancelBook: function (_id) {
-      // TODO:
-      axios.post('http://localhost:3000/delete', { id: _id })
-        .then(() => axios.get('http://localhost:3000/update'))
-    },
-    completeMatch: function (bookId, matchId) { 
-
-      axios.post('http://localhost:3000/sold', {
-        id_1: bookId,
-        id_2: matchId,
+      axios.post('http://localhost:3000/delete', {
+        params: {
+          id: _id,
+        },
       })
+      // copied from completeMatch
+      .then(response => {
+        let books;
+        if (this.type == 'buy') {
+          books = this.$store.state.booksBuy;
+        } else {
+          books = this.$store.state.booksSell;
+        }
+        for (let i = 0; i < books.length; ++i) {
+          if (books[i]._id == _id) {
+            this.$store.commit('removeBook', {
+              type: this.type,
+              index: i,
+            });
+            break;
+          }
+        }
+      })
+      .catch(err => {console.log(err)});
+    },
+    completeMatch: function (bookId, matchId) {
+      axios.post('http://localhost:3000/sold', {
+        params: {
+          id_1: bookId,
+          id_2: matchId,
+        },
+      })
+      .then(response => {
+        let books;
+        if (this.type == 'buy') {
+          books = this.$store.state.booksBuy;
+        } else {
+          books = this.$store.state.booksSell;
+        }
+        for (let i = 0; i < books.length; ++i) {
+          if (books[i]._id == bookId) {
+            this.$store.commit('removeBook', {
+              type: this.type,
+              index: i,
+            });
+            break;
+          }
+        }
+      })
+      .catch(err => {console.log(err)});
     },
     isRowHovered: function (index) {
       return index == this.rowHoverIndex;
@@ -134,9 +174,6 @@ export default {
     })
     .then(response => {
       this.matches = response.data;
-      console.log(this.matches);
-      console.log('here');
-      console.log(response.data);
     })
     .catch(err => {console.log(err)});
   },

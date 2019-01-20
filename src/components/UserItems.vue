@@ -32,40 +32,31 @@ export default {
   components: {
     ItemsItem,
   },
-  data: {
-    updateBooks: 0,
-  },
   computed: mapState([
     'booksSell',
     'booksBuy',
   ]),
   mounted: function () {
-    this.update();
-  },
-  methods: {
-    update() {
-      console.log('update')
-      axios.get('http://localhost:3000/books')
-        .then(response => {
-          console.log(response);
-          let data = response.data;
-          console.log(data);
-          for (let i = 0; i < data.length; ++i) {
-            if (data[i].buy) {
-              this.$store.commit('pushBooksBuy', {
-                bookBuy: data[i],
-              });
-            } else {
-              this.$store.commit('pushBooksSell', {
-                bookSell: data[i],
-              });
-            }
+    if (this.$store.state.loggedIn) {
+      axios.get('http://localhost:3000/books', {
+      })
+      .then(response => {
+        let data = response.data;
+        for (let i = 0; i < data.length; ++i) {
+          if (data[i].buy) {
+            this.$store.commit('pushBooksBuy', {
+              bookBuy: data[i],
+            });
+          } else {
+            this.$store.commit('pushBooksSell', {
+              bookSell: data[i],
+            });
           }
-          this.updateBooks += 1;
-        })
-        .catch(err => {console.log(err)});
+        }
+      })
+      .catch(err => {console.log(err)});
     }
-  }
+  },
 };
 </script>
 
