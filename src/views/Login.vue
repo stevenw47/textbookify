@@ -1,9 +1,11 @@
 <template>
   <div class="login">
     <div class="card">
-      <h2>...</h2>
-      <form>
-        <input v-model="email">
+      <h1 class="card-title">textbookify</h1>
+      <form class="login-form" v-on:submit.prevent="login">
+        <input class="login-input" type="text" v-model="email">
+        <input class="login-input" type="password" v-model="password">
+        <button class="login-button">Login</button>
       </form>
     </div>
   </div>
@@ -14,7 +16,17 @@ export default {
   data: function () {
     return {
       email: '',
+      password: '',
     };
+  },
+  methods: {
+    login: function () {
+      if (this.email.length != 0 && this.password.length != 0) {
+        this.$router.push('/');
+      } else {
+        // TODO: display something
+      }
+    },
   },
 };
 </script>
@@ -22,7 +34,7 @@ export default {
 <style scoped>
 .login {
   height: 100vh;
-  background-color: pink;
+  background-color: #1565c0;
 
   display: flex;
   flex-direction: column;
@@ -41,5 +53,29 @@ export default {
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
+}
+
+.card-title {
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login-input {
+  border: 1px solid #1565c0;
+  border-radius: 7px;
+  margin: 8px 0;
+  font-size: 18px;
+}
+.login-button {
+  border: 1px solid #1565c0;
+  border-radius: 7px;
+  margin: 8px 0;
+  font-size: 18px;
+
+  background-color: white;
 }
 </style>
