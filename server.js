@@ -72,16 +72,16 @@ app.get('/match', (req, res) => {
 app.post('/delete', (req, res) => {
   console.log(req.body);
   db.collection('books')
-    .deleteOne({ '_id': ObjectId(req.body.id) });
+    .deleteOne({ _id: ObjectId(req.body.id) });
   console.log('done')
   res.send('deleted book');
 });
 
-app.delete('/sold', (req, res) => {
+app.post('/sold', (req, res) => {
   db.collection('books')
-    .update({ _id: req.body.id_1 }, { $set: { date_sold: new Date() } });
+    .updateOne({ _id: ObjectId(req.body.id_1) }, { $set: { date_sold: new Date() } });
   db.collection('books')
-    .update({ _id: req.body.id_2 }, { $set: { date_sold: new Date() } });
+    .updateOne({ _id: ObjectId(req.body.id_2) }, { $set: { date_sold: new Date() } });
   res.send('deleted books');
 });
 
