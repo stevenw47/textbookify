@@ -110,14 +110,14 @@ export default {
       avgPrice: null
     };
   },
-  // updated: function() {
-  //   console.log(this.avgPrice);
-  //   if (this.courseCode && this.title && this.edition) {
-  //     console.log(this.avgPrice);
-  //     this.getAvergePrice(this.courseCode, this.title, this.edition);
-  //     console.log(this.avgPrice);
-  //   }
-  // },
+  updated: function() {
+    console.log(this.avgPrice);
+    if (this.courseCode && this.title && this.edition) {
+      console.log(this.avgPrice);
+      this.getAvergePrice(this.courseCode, this.title, this.edition);
+      console.log(this.avgPrice);
+    }
+  },
   methods: {
     showBuyModal() {
       this.isBuyingItem = true;
