@@ -50,9 +50,13 @@ app.post('/addition', (req, res) => {
     console.log('saved to database');
   });
   getMatches(req.body.course_code, req.body.buy).then((arr) => {
-    res.send(arr.length);
+    // res.send('arr.length');
+    console.log(arr)
+    if (arr.length) {
+      res.send('yes');
+    }
   });
-  res.send('added book to database');
+  // res.send('added book to database');
 });
 
 app.get('/books', (req, res) => {
