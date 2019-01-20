@@ -1,5 +1,3 @@
-const axios = require('axios');
-
 const express = require('express');
 const { MongoClient, ObjectId } = require('mongodb');
 const bodyParser = require('body-parser');
@@ -55,21 +53,21 @@ app.post('/addition', (req, res) => {
   db.collection('books').find({
     course_code: req.body.course_code,
     buy: findBuy,
-    'user.user_id' : 1,
+    'user.user_id': 1,
     date_sold: null
   }).toArray().then((arr) => {
-  //   // res.send('arr.length');
+    //   // res.send('arr.length');
     console.log(arr)
     if (arr.length) {
       client.messages
-      .create({
-        body: `You have a new Textbookify match for your ${arr[0].course_code} textbook!`,
-        from: '+15874172430',
-        to: '+14166299630',
-      })
-      .then(message => console.log(message.sid))
-      .done();
-    res.send('notified');
+        .create({
+          body: `You have a new Textbookify match for your ${arr[0].course_code} textbook!`,
+          from: '+15874172430',
+          to: '+14166299630',
+        })
+        .then(message => console.log(message.sid))
+        .done();
+      res.send('notified');
     }
   });
   res.send('added book to database');
@@ -175,17 +173,3 @@ app.get('/textbook/analytics', (req, res) => {
       res.send(String(sum / len));
     });
 });
-
-/*
-app.get('/notify', (req, res) => {
-  client.messages
-    .create({
-      body: 'You have a new Textbookify match!',
-      from: '+15874172430',
-      to: '+14166299630',
-    })
-    .then(message => console.log(message.sid))
-    .done();
-  res.send('notified');
-});
-*/
