@@ -17,8 +17,8 @@
       </table>
     </div>
     <div class="item-contents">
-      <template v-if="matches.length!=0">
-        <div class="item-content" v-for="(match, index) in matches" :key=match._id>
+      <template v-if="matches.length">
+        <div class="item-content" v-for="match in matches" :key="match._id" v-on:click="openModal(match)">
           <table class="content-table">
             <template v-if="index==0">
               <tr class="content-table-header">
@@ -34,7 +34,7 @@
               v-on:mouseleave="rowHoverIndex = -1"
             >
               <td class="content-edition">{{ match.edition }}</td>
-              <td class="content-user">{{ match.user.user_name }}</td>
+              <td class="content-user" v-on:click="openModal">{{ match.user.user_name }}</td>
               <td class="content-contact">{{ match.user.contact }}</td>
               <td class="content-price"><span v-show="type=='buy'">${{ match.price }}</span></td>
               <td class="content-button">
@@ -53,6 +53,36 @@
           <span class="no-matches">You have no matches <i class="far fa-frown"></i>.</span>
         </div>
       </template>
+      <div class="modal-backdrop" v-if="modal">
+        <div class="item-modal">
+          <div class="modal-header">
+            <h4>Details</h4>
+            <button
+              type="button"
+              class="btn-close"
+              @click="closeModal"
+            >
+              x
+            </button>
+          </div>
+          <div class="modal-body">
+            <p><span class="gray">Textbook: </span>{{modal_data.title}}, {{modal_data.course_code}}</p>
+            <p><span class="gray">Description: </span>{{modal_data.description}}</p>
+            <p v-if="!modal_data.buy">
+              <span class="gray">Price: </span>
+              ${{modal_data.price}}
+            </p>
+            <p v-if="!modal_data.buy" class="gray">Photo:</p>
+            <p class="gray" style="padding-bottom: 3px">Contact info:</p>
+            <p class="contact"><i class="far fa-user"></i>{{modal_data.user.user_name}}</p>
+            <p class="contact">
+              <i class="far fa-envelope"></i>
+              <a v-bind:href="'mailto:' + modal_data.user.contact">{{modal_data.user.contact}}</a>
+            </p>
+
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -66,6 +96,8 @@ export default {
   data: function () {
     return {
       matches: [],
+      modal: false,
+      modal_data: {},
       rowHoverIndex: -1,
     };
   },
@@ -101,6 +133,17 @@ export default {
     })
     .catch(err => {console.log(err)});
   },
+  methods: {
+    openModal(match) {
+      console.log(match)
+      this.modal_data = match;
+      this.modal = true;
+    },
+    closeModal() {
+      this.modal = false;
+    }
+  }
+  
 };
 </script>
 
@@ -137,7 +180,68 @@ export default {
 .item-content {
   display: flex;
   justify-content: space-around;
+  cursor: pointer;
 }
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.item-modal {
+  background-color: white;
+  box-shadow: 2px 2px 20px 1px rgba(0, 0, 0, 0.3);
+  overflow-x: auto;
+  display: flex;
+  flex-direction: column;
+  min-width: 35vw;
+}
+
+.btn-close {
+  border: none;
+  padding: 0px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #1565c0;
+  background: transparent;
+}
+
+.modal-header,
+.modal-footer {
+  padding: 20px;
+  display: flex;
+}
+
+.modal-header {
+  border-bottom: 1px solid #eeeeee;
+  color: #1565c0;
+  justify-content: space-between;
+  font-size: 20px;
+  font-weight: bold;
+  padding-left: 30px;
+}
+
+.modal-footer {
+  border-top: 1px solid #eeeeee;
+  justify-content: center;
+}
+
+.modal-body {
+  position: relative;
+  padding: 30px;
+}
+
+p {
+  padding: 10px;
+}
+
 .content-table {
   width: 95%;
   text-align: left;
@@ -179,5 +283,18 @@ export default {
 .no-matches {
   font-size: 12px;
   color: grey;
+}
+
+.gray {
+  color: grey;
+  font-size: 14px;
+}
+
+.contact {
+  padding: 3px 10px;
+}
+
+i {
+  padding-right: 8px;
 }
 </style>
