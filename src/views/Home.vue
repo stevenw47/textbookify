@@ -12,8 +12,6 @@ export default {
   name: 'home',
   components: { HomeUser },
   created: function () {
-    console.log(localStorage.loggedIn);
-    // console.log(!(localStorage.loggedIn == "true"));
     if (!(this.$store.state.loggedIn || localStorage.loggedIn == "true")) {
       this.$router.push('/login');
     } else {
