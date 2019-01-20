@@ -84,10 +84,14 @@ export default {
   margin: 8px 0;
   text-align: center;
   font-size: 16px;
+<<<<<<< HEAD
   padding: 5px;
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
   width: 15vw;
   min-width: 200px;
+=======
+  box-shadow: 1px 1px 10px rgba(0,0,0,0.3);
+>>>>>>> c7dc9d81cb327298adb3cfd900ea92c9b8b80c5b
 }
 .login-button {
   border: 1px solid #1565c0;
@@ -100,6 +104,7 @@ export default {
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
 }
 
+<<<<<<< HEAD
 .login-button:hover {
   color: #1565c0;
   background-color: #e9edff;
@@ -108,5 +113,13 @@ export default {
 
 ::placeholder {
   color: rgba(128, 128, 128, 0.582);
+=======
+  background-color: white;
+  cursor: pointer;
+  box-shadow: 1px 1px 10px rgba(0,0,0,0.3);
+}
+.login-button:hover {
+  background-color: rgba(128,128,128,0.2);
+>>>>>>> c7dc9d81cb327298adb3cfd900ea92c9b8b80c5b
 }
 </style>

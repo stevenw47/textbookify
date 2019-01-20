@@ -36,22 +36,21 @@
 
 <script>
 import axios from "axios";
+
 export default {
-  // components: {
-  // },
   data() {
     return {
       demand: [],
       supply: []
     };
   },
-
   created() {
-    axios.get("http://localhost:3000/analytics").then(({ data }) => {
-      console.log(data);
-      this.demand = data.demand;
-      this.supply = data.supply;
-    });
+    if (this.$store.state.loggedIn) {
+      axios.get("http://localhost:3000/analytics").then(({ data }) => {
+        this.demand = data.demand;
+        this.supply = data.supply;
+      });
+    }
   }
 };
 </script>
