@@ -1,8 +1,9 @@
 <template>
   <div class="user-items">
     <div class="box" v-if="booksSell.length != 0">
-      <h4 class="title">SELLING</h4>
+      <h3 class="title">SELLING</h3>
       <ItemsItem
+        class="itemsitem"
         v-for="bookSell in booksSell"
         :key="bookSell._id"
         v-bind:book="bookSell"
@@ -10,8 +11,9 @@
       />
     </div>
     <div class="box" v-if="booksBuy.length != 0">
-      <h4 class="title">BUYING</h4>
+      <h3 class="title">BUYING</h3>
       <ItemsItem
+        class="itemsitem"
         v-for="bookBuy in booksBuy"
         :key="bookBuy._id"
         v-bind:book="bookBuy"
@@ -65,10 +67,14 @@ export default {
 }
 
 .box {
-  margin: 20px 30px;
+  margin: 15px 30px;
 }
 
 .title {
   color: #1565c0;
+}
+
+.itemsitem {
+  margin: 6px 0px;
 }
 </style>

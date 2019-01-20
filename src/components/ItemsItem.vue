@@ -6,8 +6,11 @@
           <td class="item-name">{{ book.title }}<span class="grey">, {{ book.course_code }}</span></td>
           <td class="item-price"><span v-show="type!='buy'">${{ book.price }}</span></td>
           <td class="item-options">
-            <button class="options-btn" v-on:click="openModal">
-              <i class="fas fa-bars"></i>
+            <button
+              class="options-btn"
+              v-on:click="cancelBook"
+            >
+              <i class="fas fa-ban"></i>
             </button>
           </td>
         </tr>
@@ -17,17 +20,30 @@
       <template v-if="matches.length">
         <div class="item-content" v-for="match in matches" :key="match._id" v-on:click="openModal(match)">
           <table class="content-table">
-            <tr class="content-table-header">
-              <td>Edition</td>
-              <td>User</td>
-              <td>Email</td>
-              <td><span v-show="type=='buy'">Price</span></td>
-            </tr>
-            <tr>
+            <template v-if="index==0">
+              <tr class="content-table-header">
+                <td>Edition</td>
+                <td>User</td>
+                <td>Email</td>
+                <td><span v-show="type=='buy'">Price</span></td>
+                <td></td>
+              </tr>
+            </template>
+            <tr
+              v-on:mouseover="rowHoverIndex = index"
+              v-on:mouseleave="rowHoverIndex = -1"
+            >
               <td class="content-edition">{{ match.edition }}</td>
               <td class="content-user" v-on:click="openModal">{{ match.user.user_name }}</td>
               <td class="content-contact">{{ match.user.contact }}</td>
               <td class="content-price"><span v-show="type=='buy'">${{ match.price }}</span></td>
+              <td class="content-button">
+                <i
+                  class="far fa-check-circle"
+                  v-if="isRowHovered(index)"
+                  v-on:click="completeMatch"
+                ></i>
+              </td>
             </tr>
           </table>
         </div>
@@ -82,7 +98,25 @@ export default {
       matches: [],
       modal: false,
       modal_data: {},
+      rowHoverIndex: -1,
     };
+  },
+  methods: {
+    cancelBook: function () {
+      // TODO:
+      console.log(this.book);
+      axios.delete('http://localhost:3000/remove', {
+        params: {
+          id: 1,
+        },
+      })
+    },
+    completeMatch: function () { 
+      // TODO:
+    },
+    isRowHovered: function (index) {
+      return index == this.rowHoverIndex;
+    },
   },
   mounted: function () {
     axios.get('http://localhost:3000/match', {
@@ -220,21 +254,30 @@ p {
   width: 10%;
 }
 .content-user {
-  width: 40%;
+  width: 35%;
 }
 .content-contact {
-  width: 40%;
+  width: 35%;
 }
 .content-price {
   width: 10%;
 }
+.content-button {
+  width: 10%;
+}
+.content-button:hover {
+  color: lightgreen;
+}
 
 .options-btn {
   background-color: white;
+  color: grey;
   border: 0;
-  color: #1565c0;
   cursor: pointer;
   font-size: 18px;
+}
+.options-btn:hover {
+  color: red;
 }
 
 .no-matches {
