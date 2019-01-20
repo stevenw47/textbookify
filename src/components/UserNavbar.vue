@@ -85,7 +85,10 @@
         <button class="action-btn" v-on:click="showSellModal">SELL</button>
       </div>
     </div>
-    <div class="profile">Hi, {{ this.$store.state.userName }}</div>
+    <div class="profile">
+      <i class="fas fa-user-circle" style="color: white; font-size: 30px; padding-right: 8px;"></i>
+      Hi, {{ this.$store.state.userName }}
+    </div>
   </div>
 </template>
 
@@ -110,14 +113,14 @@ export default {
       avgPrice: null
     };
   },
-  // updated: function() {
-  //   console.log(this.avgPrice);
-  //   if (this.courseCode && this.title && this.edition) {
-  //     console.log(this.avgPrice);
-  //     this.getAvergePrice(this.courseCode, this.title, this.edition);
-  //     console.log(this.avgPrice);
-  //   }
-  // },
+  updated: function() {
+    console.log(this.avgPrice);
+    if (this.courseCode && this.title && this.edition) {
+      console.log(this.avgPrice);
+      this.getAvergePrice(this.courseCode, this.title, this.edition);
+      console.log(this.avgPrice);
+    }
+  },
   methods: {
     showBuyModal() {
       this.isBuyingItem = true;
@@ -220,6 +223,9 @@ export default {
   right: 40px;
   color: white;
   z-index: 1;
+  display: flex;
+  align-items: center;
+  height: auto;
 }
 
 .user-navbar p {
