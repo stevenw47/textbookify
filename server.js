@@ -1,9 +1,15 @@
+const axios = require('axios');
+
 const express = require('express');
 const { MongoClient, ObjectId } = require('mongodb');
 const bodyParser = require('body-parser');
 
 const app = express();
 const cors = require('cors');
+
+const accountSid = 'ACca79709f89410213ccd8280824a7ea56';
+const authToken = '0130034496bfb1389dd5cde1c7983ade';
+const client = require('twilio')(accountSid, authToken);
 
 app.use(cors());
 
@@ -19,21 +25,6 @@ MongoClient.connect('mongodb://uofthacks:uofthacks6@ds018258.mlab.com:18258/uoft
       console.log('Running on localhost:3000');
     });
   });
-
-app.post('/addition', (req, res) => {
-  db.collection('books').insertOne(req.body, (err, result) => {
-    if (err) return console.log(err)
-    console.log('saved to database')
-  });
-  res.send('added book to database')
-});
-
-app.get('/books', (req, res) => {
-  db.collection('books')
-    .find({ 'user.user_id': 1, 'date_sold': null })
-    .toArray()
-    .then(arr => res.send(arr));
-});
 
 function getMatches(courseCode, buy) {
   const findBuy = !(buy === 'true');
@@ -52,6 +43,24 @@ function getMatches(courseCode, buy) {
     });
   });
 }
+
+app.post('/addition', (req, res) => {
+  db.collection('books').insertOne(req.body, (err, result) => {
+    if (err) return console.log(err);
+    console.log('saved to database');
+  });
+  getMatches(req.body.course_code, req.body.buy).then((arr) => {
+    res.send(arr.length);
+  });
+  res.send('added book to database');
+});
+
+app.get('/books', (req, res) => {
+  db.collection('books')
+    .find({ 'user.user_id': 1, 'date_sold': null })
+    .toArray()
+    .then(arr => res.send(arr));
+});
 
 app.get('/match', (req, res) => {
   const courseCode = req.query.course_code;
@@ -145,4 +154,16 @@ app.get('/textbook/analytics', (req, res) => {
       const sum = prices.reduce((acc, elem) => acc + elem, 0);
       res.send(String(sum / len));
     });
+});
+
+app.get('/notify', (req, res) => {
+  client.messages
+    .create({
+      body: 'You have a new Textbookify match!',
+      from: '+15874172430',
+      to: '+14166299630',
+    })
+    .then(message => console.log(message.sid))
+    .done();
+  res.send('notified');
 });
