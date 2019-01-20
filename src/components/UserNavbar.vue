@@ -88,6 +88,7 @@
     <div class="profile">
       <i class="fas fa-user-circle" style="color: white; font-size: 30px; padding-right: 8px;"></i>
       Hi, {{ this.$store.state.userName }}
+      <i class="fas fa-sign-out-alt logout-btn" v-on:click="logout"></i>
     </div>
   </div>
 </template>
@@ -179,7 +180,14 @@ export default {
       axios.get(url).then(res => {
         this.avgPrice = res.data;
       });
-    }
+    },
+    logout: function() {
+      this.$store.commit('login', {
+        value: false,
+      });
+      localStorage.loggedIn = "false";
+      this.$router.push('/login');
+    },
   }
 };
 </script>
@@ -272,5 +280,14 @@ p.analytics {
 
 strong {
   color: #1565c0;
+}
+
+.logout-btn {
+  color: white !important;
+  font-size: 15px;
+  padding-left: 8px;
+}
+.logout-btn:hover {
+  cursor: pointer;
 }
 </style>
