@@ -75,24 +75,27 @@ export default {
 
 .modal-header,
 .modal-footer {
-  padding: 15px;
+  padding: 20px;
   display: flex;
 }
 
 .modal-header {
   border-bottom: 1px solid #eeeeee;
-  color: #4AAE9B;
+  color: #1565c0;
   justify-content: space-between;
+  font-size: 20px;
+  font-weight: bold;
+  padding-left: 30px;
 }
 
 .modal-footer {
   border-top: 1px solid #eeeeee;
-  justify-content: flex-end;
+  justify-content: center;
 }
 
 .modal-body {
   position: relative;
-  padding: 20px 15px;
+  padding: 30px;
 }
 
 .btn-close {
@@ -100,14 +103,14 @@ export default {
   padding: 0px;
   cursor: pointer;
   font-weight: bold;
-  color: #4AAE9B;
+  color: #1565c0;
   background: transparent;
 }
 
 .btn-green {
   color: white;
-  background: #4AAE9B;
-  border: 1px solid #4AAE9B;
+  background: #1565c0;
+  border: 1px solid #1565c0;
   border-radius: 2px;
 }
 

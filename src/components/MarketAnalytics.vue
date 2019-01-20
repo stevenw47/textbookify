@@ -31,7 +31,6 @@
         <div class="item-quantity">{{item.count}}</div>
       </div>
     </div>
-    </div>
   </div>
 </template>
 
