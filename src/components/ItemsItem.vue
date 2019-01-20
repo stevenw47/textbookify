@@ -97,8 +97,11 @@ export default {
     return {
       matches: [],
       modal: false,
-      modal_data: {},
+      modal_data: {
+        user: {}
+      },
       rowHoverIndex: -1,
+      index: '',
     };
   },
   methods: {
@@ -117,6 +120,14 @@ export default {
     isRowHovered: function (index) {
       return index == this.rowHoverIndex;
     },
+    openModal(match) {
+      console.log(match)
+      this.modal_data = match;
+      this.modal = true;
+    },
+    closeModal() {
+      this.modal = false;
+    }
   },
   mounted: function () {
     axios.get('http://localhost:3000/match', {
@@ -133,16 +144,6 @@ export default {
     })
     .catch(err => {console.log(err)});
   },
-  methods: {
-    openModal(match) {
-      console.log(match)
-      this.modal_data = match;
-      this.modal = true;
-    },
-    closeModal() {
-      this.modal = false;
-    }
-  }
   
 };
 </script>
