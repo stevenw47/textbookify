@@ -182,9 +182,4 @@ export default {
   font-size: 12px;
   color: grey;
 }
-
-td, tr {
-  margin: 0;
-  padding: 0;
-}
 </style>
