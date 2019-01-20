@@ -151,7 +151,9 @@ export default {
             "contact": "sherry@gmail.com"
           }
         })
-        .then(res => console.log(res));
+      .then(res => {
+        this.$store.dispatch('refreshAllBooks');
+      });
       this.courseCode = null;
       this.title = null;
       this.edition = null;

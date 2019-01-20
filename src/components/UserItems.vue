@@ -37,25 +37,26 @@ export default {
     'booksBuy',
   ]),
   mounted: function () {
-    if (this.$store.state.loggedIn) {
-      axios.get('http://localhost:3000/books', {
-      })
-      .then(response => {
-        let data = response.data;
-        for (let i = 0; i < data.length; ++i) {
-          if (data[i].buy) {
-            this.$store.commit('pushBooksBuy', {
-              bookBuy: data[i],
-            });
-          } else {
-            this.$store.commit('pushBooksSell', {
-              bookSell: data[i],
-            });
-          }
-        }
-      })
-      .catch(err => {console.log(err)});
-    }
+    this.$store.dispatch('refreshAllBooks');
+    // if (this.$store.state.loggedIn) {
+    //   axios.get('http://localhost:3000/books', {
+    //   })
+    //   .then(response => {
+    //     let data = response.data;
+    //     for (let i = 0; i < data.length; ++i) {
+    //       if (data[i].buy) {
+    //         this.$store.commit('pushBooksBuy', {
+    //           bookBuy: data[i],
+    //         });
+    //       } else {
+    //         this.$store.commit('pushBooksSell', {
+    //           bookSell: data[i],
+    //         });
+    //       }
+    //     }
+    //   })
+    //   .catch(err => {console.log(err)});
+    // }
   },
 };
 </script>
