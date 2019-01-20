@@ -3,9 +3,13 @@
     <div class="card">
       <h1 class="card-title">textbookify</h1>
       <form class="login-form" v-on:submit.prevent="login">
-        <input class="login-input" type="text" v-model="email">
-        <input class="login-input" type="password" v-model="password">
-        <button class="login-button">Login</button>
+        <div class="input-container">
+          <input class="login-input" type="text" placeholder="student@uwaterloo.ca" v-model="email">
+        </div>
+        <div class="input-container">
+          <input class="login-input" type="password" placeholder="goose123" v-model="password">
+        </div>
+        <button class="login-button"><i class="fas fa-book"></i></button>
       </form>
     </div>
   </div>
@@ -63,18 +67,26 @@ export default {
   flex-direction: column;
   align-items: center;
 }
-
+.input-container {
+  display: flex;
+  align-items: center;
+}
+.right-margin {
+  margin-right: 5px;
+}
 .login-input {
   border: 1px solid #1565c0;
   border-radius: 7px;
   margin: 8px 0;
-  font-size: 18px;
+  text-align: center;
+  font-size: 16px;
 }
 .login-button {
   border: 1px solid #1565c0;
   border-radius: 7px;
   margin: 8px 0;
-  font-size: 18px;
+  padding: 5px 8px;
+  font-size: 14px;
 
   background-color: white;
 }
