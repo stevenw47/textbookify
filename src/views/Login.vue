@@ -83,6 +83,7 @@ export default {
   margin: 8px 0;
   text-align: center;
   font-size: 16px;
+  box-shadow: 1px 1px 10px rgba(0,0,0,0.3);
 }
 .login-button {
   border: 1px solid #1565c0;
@@ -92,5 +93,10 @@ export default {
   font-size: 14px;
 
   background-color: white;
+  cursor: pointer;
+  box-shadow: 1px 1px 10px rgba(0,0,0,0.3);
+}
+.login-button:hover {
+  background-color: rgba(128,128,128,0.2);
 }
 </style>

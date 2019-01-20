@@ -17,9 +17,16 @@ export default new Vuex.Store({
       state.booksBuy.push(payload.bookBuy);
     },
     pushBooksSell (state, payload) {
-      console.log(payload.bookSell);
+      // console.log(payload.bookSell);
       state.booksSell.push(payload.bookSell);
-      console.log(state);
+      // console.log(state);
+    },
+    removeBook (state, payload) {
+      if (payload.type == 'buy') {
+        state.booksBuy.splice(payload.index, 1);
+      } else {
+        state.booksSell.splice(payload.index, 1);
+      }
     },
     login (state, payload) {
       state.loggedIn = payload.value;
