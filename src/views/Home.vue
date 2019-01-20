@@ -17,7 +17,9 @@ export default {
     if (!(this.$store.state.loggedIn || localStorage.loggedIn == "true")) {
       this.$router.push('/login');
     } else {
-      this.$store.state.loggedIn = true;
+      this.$store.commit('login', {
+          value: true,
+        });
       localStorage.loggedIn = "true";
     }
   },
