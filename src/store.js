@@ -9,6 +9,7 @@ export default new Vuex.Store({
     userName: 'Sherry',
     booksBuy: [],
     booksSell: [],
+    loggedIn: false,
   },
   mutations: {
     pushBooksBuy (state, payload) {
@@ -19,6 +20,9 @@ export default new Vuex.Store({
       console.log(payload.bookSell);
       state.booksSell.push(payload.bookSell);
       console.log(state);
+    },
+    login (state, payload) {
+      state.loggedIn = payload.value;
     },
   },
   actions: {
