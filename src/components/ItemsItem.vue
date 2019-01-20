@@ -109,12 +109,11 @@ export default {
   methods: {
     cancelBook: function (_id) {
       // TODO:
-      console.log(this.book);
-      axios.delete('http://localhost:3000/delete', {
-        params: {
-          _id,
-        },
+      console.log(_id);
+      axios.post('http://localhost:3000/delete', {
+        id: _id
       })
+      console.log(_id)
     },
     completeMatch: function () { 
       // TODO:
