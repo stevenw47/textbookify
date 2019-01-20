@@ -143,7 +143,13 @@ export default {
           description: this.description,
           picture: this.picture,
           price: this.price,
-          buy: this.isBuyingItem
+          buy: this.isBuyingItem,
+          date_created: new Date(),
+          user: {
+            "user_id": 1,
+            "user_name": "Sherry Li",
+            "contact": "sherry@gmail.com"
+          }
         })
         .then(res => console.log(res));
       this.courseCode = null;
