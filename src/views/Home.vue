@@ -12,8 +12,13 @@ export default {
   name: 'home',
   components: { HomeUser },
   created: function () {
-    if (!this.$store.state.loggedIn) {
+    console.log(localStorage.loggedIn);
+    // console.log(!(localStorage.loggedIn == "true"));
+    if (!(this.$store.state.loggedIn || localStorage.loggedIn == "true")) {
       this.$router.push('/login');
+    } else {
+      this.$store.state.loggedIn = true;
+      localStorage.loggedIn = "true";
     }
   },
 };
