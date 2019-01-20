@@ -29,11 +29,21 @@ export default {
         this.$store.commit('login', {
           value: true,
         });
+        localStorage.loggedIn = "true";
         this.$router.push('/');
       } else {
         // TODO: display something
       }
     },
+  },
+  created: function () {
+    if (this.$store.state.loggedIn || localStorage.loggedIn == "true") {
+      this.$store.commit('login', {
+          value: true,
+        });
+      localStorage.loggedIn = "true";
+      this.$router.push('/');
+    }
   },
 };
 </script>

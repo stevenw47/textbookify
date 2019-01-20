@@ -129,10 +129,8 @@ export default {
     },
     completeMatch: function (bookId, matchId) {
       axios.post('http://localhost:3000/sold', {
-        params: {
           id_1: bookId,
           id_2: matchId,
-        },
       })
       .then(response => {
         let books;
@@ -239,11 +237,11 @@ td {
 .content-price {
   width: 10%;
 }
-.content-edition:hover,	
-.content-user:hover,	
-.content-contact:hover,	
-.content-price:hover {	
-  cursor: pointer;	
+.content-edition:hover,
+.content-user:hover,
+.content-contact:hover,
+.content-price:hover {
+  cursor: pointer;
 }
 .content-button {
   text-align: center;
