@@ -71,11 +71,7 @@ app.get('/match', (req, res) => {
 
 app.delete('/delete', (req, res) => {
   db.collection('books')
-    .find({ 'user.user_id': 1, date_sold: null })
-    .toArray()
-    .then(arr => arr[req.body.index]._id)
-    .then(book => db.collection('books')
-      .update({ _id: book }, { $set: { date_sold: new Date() } }));
+    .deleteOne({ _id: req.body._id });
   res.send('deleted book');
 });
 
