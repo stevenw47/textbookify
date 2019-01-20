@@ -26,6 +26,9 @@ export default {
   methods: {
     login: function () {
       if (this.email.length != 0 && this.password.length != 0) {
+        this.$store.commit('login', {
+          value: true,
+        });
         this.$router.push('/');
       } else {
         // TODO: display something
