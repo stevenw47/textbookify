@@ -219,6 +219,7 @@ export default {
   top: 20px;
   right: 40px;
   color: white;
+  z-index: 1;
 }
 
 .user-navbar p {

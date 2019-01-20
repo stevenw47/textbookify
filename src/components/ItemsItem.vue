@@ -328,6 +328,12 @@ td {
 p {
   padding: 10px;
 }
+.contact {	
+  padding: 3px 10px;	
+}
+p > i {
+  padding-right: 5px;
+}
 
 .gray {
   color: grey;
