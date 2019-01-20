@@ -1,10 +1,10 @@
 <template>
   <div class="items-item">
-    
+
     <div class="item-header">
       <hr>
       <table class="item-table">
-        
+
         <tr>
           <td class="item-name">{{ book.title }}<span class="grey">, {{ book.course_code }}</span></td>
           <td class="item-price"><span v-if="type!='buy'">${{ book.price.toFixed(2) }}</span></td>
@@ -116,8 +116,11 @@ export default {
         },
       })
     },
-    completeMatch: function () { 
-      // TODO:
+    completeMatch: function (id_1, id_2) {
+      axios.post('http://localhost:3000/sold', {
+        id_1: id_1,
+        id_2: id_2,
+      }).then(res => console.log(res));
     },
     isRowHovered: function (index) {
       return index == this.rowHoverIndex;
@@ -146,7 +149,7 @@ export default {
     })
     .catch(err => {console.log(err)});
   },
-  
+
 };
 </script>
 
