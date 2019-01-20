@@ -105,9 +105,7 @@ export default {
   methods: {
     cancelBook: function (_id) {
       axios.post('http://localhost:3000/delete', {
-        params: {
-          id: _id,
-        },
+        id: _id,
       })
       // copied from completeMatch
       .then(response => {
