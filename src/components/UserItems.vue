@@ -64,6 +64,7 @@ export default {
 .user-items {
   display: flex;
   flex-direction: column;
+  justify-content: right;
   padding-bottom: 15px;
 }
 

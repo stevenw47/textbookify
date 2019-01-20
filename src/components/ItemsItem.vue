@@ -11,7 +11,7 @@
           <td class="item-options">
             <button
               class="options-btn"
-              v-on:click="cancelBook"
+              v-on:click="cancelBook(book._id)"
             >
               <i class="fas fa-ban"></i>
             </button>
@@ -35,12 +35,11 @@
             <tr
               v-on:mouseover="rowHoverIndex = index"
               v-on:mouseleave="rowHoverIndex = -1"
-              v-on:click="openModal(match)"
             >
-              <td class="content-edition">{{ match.edition }}</td>
-              <td class="content-user" v-on:click="openModal">{{ match.user.user_name }}</td>
-              <td class="content-contact">{{ match.user.contact }}</td>
-              <td class="content-price"><span v-if="type=='buy'">${{ match.price.toFixed(2) }}</span></td>
+              <td class="content-edition" v-on:click="openModal(match)">{{ match.edition }}</td>
+              <td class="content-user" v-on:click="openModal(match)">{{ match.user.user_name }}</td>
+              <td class="content-contact" v-on:click="openModal(match)">{{ match.user.contact }}</td>
+              <td class="content-price" v-on:click="openModal(match)"><span v-if="type=='buy'">${{ match.price.toFixed(2) }}</span></td>
               <td class="content-button">
                 <i
                   class="far fa-check-circle"
@@ -108,12 +107,12 @@ export default {
     };
   },
   methods: {
-    cancelBook: function () {
+    cancelBook: function (_id) {
       // TODO:
       console.log(this.book);
-      axios.delete('http://localhost:3000/remove', {
+      axios.delete('http://localhost:3000/delete', {
         params: {
-          id: 1,
+          _id,
         },
       })
     },
@@ -272,7 +271,16 @@ p {
 .content-price {
   width: 10%;
 }
+
+.content-edition:hover,
+.content-user:hover,
+.content-contact:hover,
+.content-price:hover {
+  cursor: pointer;
+}
+
 .content-button {
+  color: lightgrey;
   width: 10%;
   text-align: right;
 }
