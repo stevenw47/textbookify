@@ -6,7 +6,7 @@
         v-for="bookSell in booksSell"
         :key="bookSell._id"
         v-bind:book="bookSell"
-        v-bind:type="sell"
+        type="sell"
       />
     </div>
     <div class="box" v-if="booksBuy.length != 0">

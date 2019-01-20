@@ -3,7 +3,7 @@
     <div class="title">textbookify</div>
     <div class="nav-item">
       <ActionModal v-show="isBuyingItem" v-on:close="closeBuyModal">
-          <template slot="header">Buy something!</template>
+          <template slot="header">Buy a textbook</template>
           <template slot="body">
             <p>Course Code:</p>
             <input id="course-code" v-model="courseCode" type="text" placeholder="ECON101">
@@ -18,11 +18,11 @@
             <i class="fas fa-info-circle" style="color: white;"></i><p class="analytics"><strong>10</strong> copies were sold in the past week.</p>
           </template>
           <template slot="footer">
-           <button class="action-btn" v-on:click="handleSubmit">Submit</button>
+           <button class="action-btn" v-on:click="handleSubmit">SUBMIT</button>
         </template>
       </ActionModal>
       <ActionModal v-show="isSellingItem" v-on:close="closeSellModal">
-        <template slot="header">Sell something!</template>
+        <template slot="header">Sell a textbook</template>
         <template slot="body">
             <p>Course Code:</p>
             <input id="course-code" v-model="courseCode" type="text" placeholder="ECON101">
@@ -142,8 +142,9 @@ export default {
   cursor: pointer;
   text-align: center;
   color: #1565c0;
+  font-size: 14px;
   font-weight: bold;
-  width: 70px;
+  width: 80px;
   box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
 
   transition: background 100ms ease-in-out;
@@ -183,5 +184,14 @@ p.analytics {
   display: inline;
   padding: 0 8px;
   font-weight: normal;
+  font-family: 'Inter UI';
+}
+
+::placeholder {
+  color: lightgrey;
+}
+
+strong {
+  color: #1565c0;
 }
 </style>
