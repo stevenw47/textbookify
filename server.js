@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 
 const app = express();
 const cors = require('cors');
+
 app.use(cors());
 
 app.use(bodyParser({ extended: true }));
@@ -15,7 +16,7 @@ MongoClient.connect('mongodb://uofthacks:uofthacks6@ds018258.mlab.com:18258/uoft
     if (err) console.log(err);
     db = client.db('uofthacks');
     app.listen(3000, () => {
-      console.log('test');
+      console.log('Running on localhost:3000');
     });
   });
 
@@ -23,16 +24,16 @@ app.post('/addition', (req, res) => {
   db.collection('books').insertOne(req.body, (err, result) => {
     if (err) return console.log(err)
     console.log('saved to database')
-  })
+  });
   res.send('added book to database')
-})
+});
 
 app.get('/books', (req, res) => {
   db.collection('books')
     .find({ 'user.user_id': 1, 'date_sold': null })
     .toArray()
     .then(arr => res.send(arr));
-})
+});
 
 function getMatches(courseCode, buy) {
   const findBuy = !(buy === 'true');
@@ -54,9 +55,9 @@ function getMatches(courseCode, buy) {
 
 app.get('/match', (req, res) => {
   const courseCode = req.query.course_code;
-  const title = req.query.title;
-  const edition = req.query.edition;
-  const buy = req.query.buy;
+  const { title } = req.query;
+  const { edition } = req.query;
+  const { buy } = req.query;
   getMatches(courseCode, buy).then((books) => {
     if (title) {
       if (edition) {
@@ -70,37 +71,72 @@ app.get('/match', (req, res) => {
 
 app.delete('/delete', (req, res) => {
   db.collection('books')
-    .find({ "user.user_id": 1, date_sold: null })
+    .find({ 'user.user_id': 1, date_sold: null })
     .toArray()
     .then(arr => arr[req.body.index]._id)
     .then(book => db.collection('books')
-      .update({ _id: book}, { $set: { date_sold: new Date() }}));
-  res.send('deleted book')
-})
+      .update({ _id: book }, { $set: { date_sold: new Date() } }));
+  res.send('deleted book');
+});
 
 app.get('/analytics', async (req, res) => {
   const demand = await db.collection('books')
     .aggregate([
-      { $match: { buy: true }},
-      { $group: {
-        _id: { course_code: "$course_code", title: "$title" },
-        count: { $sum: 1}
-      }},
-      { $sort: { count: -1 } }
+      { $match: { buy: true } },
+      {
+        $group: {
+          _id: { course_code: '$course_code', title: '$title' },
+          count: { $sum: 1 },
+        },
+      },
+      { $sort: { count: -1 } },
     ])
     .limit(5)
-    .toArray()
+    .toArray();
   const supply = await db.collection('books')
     .aggregate([
-      { $match: { buy: false }},
-      { $group: {
-        _id: { course_code: "$course_code", title: "$title" },
-        count: { $sum: 1}
-      }},
-      { $sort: { count: -1 } }
+      { $match: { buy: false } },
+      {
+        $group: {
+          _id: { course_code: '$course_code', title: '$title' },
+          count: { $sum: 1 },
+        },
+      },
+      { $sort: { count: -1 } },
     ])
     .limit(5)
-    .toArray()
-  res.send({demand, supply});
-})
+    .toArray();
+  res.send({ demand, supply });
+});
 
+function getBooksForAnalytics(courseCode, title, edition) {
+  return new Promise((resolve, reject) => {
+    const collection = db.collection('books');
+
+    collection.find({
+      course_code: courseCode,
+      buy: true,
+      title,
+      edition,
+    }).toArray((err, items) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(items);
+      }
+    });
+  });
+}
+
+app.get('/textbook/analytics', (req, res) => {
+  const courseCode = req.query.course_code;
+  const { title } = req.query;
+  const { edition } = req.query;
+  getBooksForAnalytics(courseCode, title, edition)
+    .then((books) => {
+      const prices = books.map(book => Number(book.price));
+      const len = prices.length;
+      const sum = prices.reduce((acc, elem) => acc + elem, 0);
+      res.send(String(sum / len));
+    });
+});

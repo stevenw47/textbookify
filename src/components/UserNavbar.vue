@@ -3,43 +3,79 @@
     <div class="title">textbookify</div>
     <div class="nav-item">
       <ActionModal v-show="isBuyingItem" v-on:close="closeBuyModal">
-          <template slot="header">Buy a textbook</template>
-          <template slot="body">
-            <p>Course Code:</p>
-            <input id="course-code" v-model="courseCode" type="text" placeholder="ECON101">
-            <p>Title:</p>
-            <input id="title" v-model="title" type="text" placeholder="Introduction to Microeconomics">
-            <p>Edition:</p>
-            <input id="edition" v-model="edition" type="number" min="1" placeholder="1" value="1">
-            <p>Description:</p>
-            <input id="description" v-model="description" type="text" placeholder="Hardcovers preferred.">
-            <i class="fas fa-info-circle"></i><p class="analytics">The average price for this item is <strong>$50.00</strong>.</p>
-            <br>
-            <i class="fas fa-info-circle" style="color: white;"></i><p class="analytics"><strong>10</strong> copies were sold in the past week.</p>
-          </template>
-          <template slot="footer">
-           <button class="action-btn" v-on:click="handleSubmit">SUBMIT</button>
+        <template slot="header">Buy a textbook</template>
+        <template slot="body">
+          <p>Course Code:</p>
+          <input id="course-code" v-model="courseCode" type="text" placeholder="ECON101">
+          <p>Title:</p>
+          <input
+            id="title"
+            v-model="title"
+            type="text"
+            placeholder="Introduction to Microeconomics"
+          >
+          <p>Edition:</p>
+          <input id="edition" v-model="edition" type="number" min="1" placeholder="1" value="1">
+          <p>Description:</p>
+          <input
+            id="description"
+            v-model="description"
+            type="text"
+            placeholder="Hardcovers preferred."
+          >
+          <span v-if="Number(this.avgPrice)">
+            <i class="fas fa-info-circle"></i>
+            <p class="analytics">
+              The average price for this item is
+              <strong>${{ this.avgPrice.toFixed(2) }}</strong>.
+            </p>
+          </span>
+        </template>
+        <template slot="footer">
+          <button class="action-btn" v-on:click="handleSubmit">Submit</button>
         </template>
       </ActionModal>
       <ActionModal v-show="isSellingItem" v-on:close="closeSellModal">
         <template slot="header">Sell a textbook</template>
         <template slot="body">
-            <p>Course Code:</p>
-            <input id="course-code" v-model="courseCode" type="text" placeholder="ECON101">
-            <p>Title:</p>
-            <input id="title" v-model="title" type="text" placeholder="Introduction to Microeconomics">
-            <p>Edition:</p>
-            <input id="edition" v-model="edition" type="number" min="1" placeholder="1" value="">
-            <p>Description:</p>
-            <input id="description" v-model="description" type="text" placeholder="Great condition!">
-            <p>Link to Picture:</p>
-            <input id="picture" type="text" v-model="picture" placeholder="https://drive.google.com/userid/my_book">
-            <p>Price:</p>
-            <input id="price" v-model="price" type="number" min="0" placeholder="50.00" step="0.01" value="50.00">
-            <i class="fas fa-info-circle"></i><p class="analytics">The average price for this item is <strong>$50.00</strong>.</p>
-            <br>
-            <i class="fas fa-info-circle" style="color: white;"></i><p class="analytics"><strong>10</strong> copies were sold in the past week.</p>
-         </template>
+          <p>Course Code:</p>
+          <input id="course-code" v-model="courseCode" type="text" placeholder="ECON101">
+          <p>Title:</p>
+          <input
+            id="title"
+            v-model="title"
+            type="text"
+            placeholder="Introduction to Microeconomics"
+          >
+          <p>Edition:</p>
+          <input id="edition" v-model="edition" type="number" min="1" placeholder="1" value>
+          <p>Description:</p>
+          <input id="description" v-model="description" type="text" placeholder="Great condition!">
+          <p>Link to Picture:</p>
+          <input
+            id="picture"
+            type="text"
+            v-model="picture"
+            placeholder="https://drive.google.com/userid/my_book"
+          >
+          <p>Price:</p>
+          <input
+            id="price"
+            v-model="price"
+            type="number"
+            min="0"
+            placeholder="50.00"
+            step="0.01"
+            value="50.00"
+          >
+          <span v-if="Number(this.avgPrice)">
+            <i class="fas fa-info-circle"></i>
+            <p class="analytics">
+              The average price for this item is
+              <strong>${{ this.avgPrice.toFixed(2) }}</strong>.
+            </p>
+          </span>
+        </template>
         <template slot="footer">
           <button class="action-btn" v-on:click="handleSubmit">Submit</button>
         </template>
@@ -70,8 +106,17 @@ export default {
       edition: null,
       description: null,
       picture: null,
-      price: null
+      price: null,
+      avgPrice: null
     };
+  },
+  updated: function() {
+    console.log(this.avgPrice);
+    if (this.courseCode && this.title && this.edition) {
+      console.log(this.avgPrice);
+      this.getAvergePrice(this.courseCode, this.title, this.edition);
+      console.log(this.avgPrice);
+    }
   },
   methods: {
     showBuyModal() {
@@ -87,15 +132,17 @@ export default {
       this.isSellingItem = false;
     },
     handleSubmit() {
-      axios.post('http://localhost:3000/addition', {
-        course_code: this.courseCode,
-        title: this.title,
-        edition: this.edition,
-        description: this.description,
-        picture: this.picture,
-        price: this.price,
-        buy: this.isBuyingItem
-      }).then(res => console.log(res));
+      axios
+        .post("http://localhost:3000/addition", {
+          course_code: this.courseCode,
+          title: this.title,
+          edition: this.edition,
+          description: this.description,
+          picture: this.picture,
+          price: this.price,
+          buy: this.isBuyingItem
+        })
+        .then(res => console.log(res));
       this.courseCode = null;
       this.title = null;
       this.edition = null;
@@ -104,6 +151,19 @@ export default {
       this.price = null;
       if (this.isBuyingItem) this.closeBuyModal();
       else this.closeSellModal();
+    },
+    getAvergePrice(courseCode, title, edition) {
+      title = encodeURIComponent(title.trim());
+      const url =
+        "http://localhost:3000/textbook/analytics?course_code=" +
+        courseCode +
+        "&title=" +
+        title +
+        "&edition=" +
+        edition;
+      axios.get(url).then(res => {
+        this.avgPrice = res.data;
+      });
     }
   }
 };
@@ -120,7 +180,7 @@ export default {
   height: 250px;
   font-family: Montserrat;
   color: white;
-  box-shadow: 10px 5px 10px rgba(0,0,0,0.3);
+  box-shadow: 10px 5px 10px rgba(0, 0, 0, 0.3);
 }
 
 .title {
@@ -145,7 +205,7 @@ export default {
   font-size: 14px;
   font-weight: bold;
   width: 80px;
-  box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
 
   transition: background 100ms ease-in-out;
 }
