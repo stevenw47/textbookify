@@ -97,6 +97,8 @@ export default {
 .modal-body {
   position: relative;
   padding: 30px;
+  max-height: calc(100vh - 210px);
+  overflow-y: auto;
 }
 
 .btn-close {

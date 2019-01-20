@@ -7,12 +7,9 @@
           <td class="item-name">{{ book.title }}<span class="grey">, {{ book.course_code }}</span></td>
           <td class="item-price"><span v-if="type!='buy'">${{ parseInt(book.price).toFixed(2) }}</span></td>
           <td class="item-options">
-            <button
-              class="options-btn"
-              v-on:click="cancelBook(book._id)"
-            >
-              <i class="fas fa-ban"></i>
-            </button>
+            <div class="options-btn">
+              <i class="fas fa-ban" v-on:click="cancelBook(book._id)"></i>
+            </div>
           </td>
         </tr>
       </table>
@@ -247,20 +244,18 @@ td {
   text-align: center;
   width: 10%;
 }
-.content-button:hover {
+.content-button i:hover {
   color: #1565c0;
   cursor: pointer;
 }
 
 .options-btn {
-  background-color: white;
   color: lightgrey;
-  border: 0;
-  cursor: pointer;
   font-size: 18px;
 }
-.options-btn:hover {
+.options-btn i:hover {
   color: rgba(255, 0, 0, 0.637);
+  cursor: pointer;
 }
 
 .no-matches {
