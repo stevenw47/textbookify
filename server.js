@@ -79,6 +79,14 @@ app.delete('/delete', (req, res) => {
   res.send('deleted book');
 });
 
+app.delete('/sold', (req, res) => {
+  db.collection('books')
+    .update({ _id: req.body.id_1 }, { $set: { date_sold: new Date() } });
+  db.collection('books')
+    .update({ _id: req.body.id_2 }, { $set: { date_sold: new Date() } });
+  res.send('deleted books');
+});
+
 app.get('/analytics', async (req, res) => {
   const demand = await db.collection('books')
     .aggregate([
@@ -115,7 +123,7 @@ function getBooksForAnalytics(courseCode, title, edition) {
 
     collection.find({
       course_code: courseCode,
-      buy: true,
+      buy: false, // set true for testing
       title,
       edition,
     }).toArray((err, items) => {
