@@ -1,5 +1,5 @@
 const express = require('express');
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb');
 const bodyParser = require('body-parser');
 
 const app = express();
@@ -69,9 +69,11 @@ app.get('/match', (req, res) => {
   });
 });
 
-app.delete('/delete', (req, res) => {
+app.post('/delete', (req, res) => {
+  console.log(req.body);
   db.collection('books')
-    .deleteOne({ _id: req.body._id });
+    .deleteOne({ '_id': ObjectId(req.body.id) });
+  console.log('done')
   res.send('deleted book');
 });
 

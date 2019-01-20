@@ -106,12 +106,11 @@ export default {
   methods: {
     cancelBook: function () {
       // TODO:
-      console.log(this.book);
-      axios.delete('http://localhost:3000/remove', {
-        params: {
-          id: 1,
-        },
+      console.log(_id);
+      axios.post('http://localhost:3000/delete', {
+        id: _id
       })
+      console.log(_id)
     },
     completeMatch: function () { 
       // TODO:
@@ -206,19 +205,19 @@ export default {
   width: 10%;
 }
 .content-button:hover {
-  color: lightgreen;
+  color: #1565c0;
   cursor: pointer;
 }
 
 .options-btn {
   background-color: white;
-  color: grey;
+  color: lightgrey;
   border: 0;
   cursor: pointer;
   font-size: 18px;
 }
 .options-btn:hover {
-  color: red;
+  color: rgba(255, 0, 0, 0.637);
 }
 
 .no-matches {
