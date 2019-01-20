@@ -128,6 +128,7 @@ export default {
   width: 10%;
 }
 .item-options {
+  text-align: center;
   width: 10%;
 }
 
@@ -135,11 +136,11 @@ export default {
   width: 100%;
 }
 .item-content {
-  display: flex;
-  justify-content: space-around;
+  /*display: flex;
+  justify-content: space-around;*/
 }
 .content-table {
-  width: 95%;
+  width: 100%;
   text-align: left;
 }
 .content-table-header {
@@ -159,6 +160,7 @@ export default {
   width: 10%;
 }
 .content-button {
+  text-align: center;
   width: 10%;
 }
 .content-button:hover {
@@ -179,5 +181,10 @@ export default {
 .no-matches {
   font-size: 12px;
   color: grey;
+}
+
+td, tr {
+  margin: 0;
+  padding: 0;
 }
 </style>
