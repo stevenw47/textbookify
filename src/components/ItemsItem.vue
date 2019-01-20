@@ -1,17 +1,15 @@
 <template>
   <div class="items-item">
-    
     <div class="item-header">
       <hr>
       <table class="item-table">
-        
         <tr>
           <td class="item-name">{{ book.title }}<span class="grey">, {{ book.course_code }}</span></td>
-          <td class="item-price"><span v-if="type!='buy'">${{ book.price.toFixed(2) }}</span></td>
+          <td class="item-price"><span v-show="type!='buy'">${{ book.price }}</span></td>
           <td class="item-options">
             <button
               class="options-btn"
-              v-on:click="cancelBook(book._id)"
+              v-on:click="cancelBook"
             >
               <i class="fas fa-ban"></i>
             </button>
@@ -20,8 +18,8 @@
       </table>
     </div>
     <div class="item-contents">
-      <template v-if="matches.length">
-        <div class="item-content" v-for="(match, index) in matches" :key="match._id">
+      <template v-if="matches.length!=0">
+        <div class="item-content" v-for="(match, index) in matches" :key=match._id>
           <table class="content-table">
             <template v-if="index==0">
               <tr class="content-table-header">
@@ -33,13 +31,15 @@
               </tr>
             </template>
             <tr
+              class="match-row"
               v-on:mouseover="rowHoverIndex = index"
               v-on:mouseleave="rowHoverIndex = -1"
+              v-on:click="openMatchModal(match)"
             >
-              <td class="content-edition" v-on:click="openModal(match)">{{ match.edition }}</td>
-              <td class="content-user" v-on:click="openModal(match)">{{ match.user.user_name }}</td>
-              <td class="content-contact" v-on:click="openModal(match)">{{ match.user.contact }}</td>
-              <td class="content-price" v-on:click="openModal(match)"><span v-if="type=='buy'">${{ match.price.toFixed(2) }}</span></td>
+              <td class="content-edition">{{ match.edition }}</td>
+              <td class="content-user">{{ match.user.user_name }}</td>
+              <td class="content-contact">{{ match.user.contact }}</td>
+              <td class="content-price"><span v-show="type=='buy'">${{ match.price }}</span></td>
               <td class="content-button">
                 <i
                   class="far fa-check-circle"
@@ -56,34 +56,33 @@
           <span class="no-matches">You have no matches <i class="far fa-frown"></i>.</span>
         </div>
       </template>
-      <div class="modal-backdrop" v-if="modal">
-        <div class="item-modal">
-          <div class="modal-header">
-            <h4>Details</h4>
-            <button
-              type="button"
-              class="btn-close"
-              @click="closeModal"
-            >
-              x
-            </button>
-          </div>
-          <div class="modal-body">
-            <p><span class="gray">Textbook: </span>{{modal_data.title}}, {{modal_data.course_code}}</p>
-            <p><span class="gray">Description: </span>{{modal_data.description}}</p>
-            <p v-if="!modal_data.buy">
-              <span class="gray">Price: </span>
-              ${{modal_data.price.toFixed(2)}}
-            </p>
-            <p v-if="!modal_data.buy" class="gray">Photo:</p>
-            <p class="gray" style="padding-bottom: 3px">Contact info:</p>
-            <p class="contact"><i class="far fa-user"></i>{{modal_data.user.user_name}}</p>
-            <p class="contact">
-              <i class="far fa-envelope"></i>
-              <a v-bind:href="'mailto:' + modal_data.user.contact">{{modal_data.user.contact}}</a>
-            </p>
-
-          </div>
+    </div>
+    <div class="modal-backdrop" v-if="showMatchModal">
+      <div class="item-modal">
+        <div class="modal-header">
+          <h4>Details</h4>
+          <button
+            type="button"
+            class="btn-close"
+            @click="showMatchModal = false"
+          >
+            x
+          </button>
+        </div>
+        <div class="modal-body">
+          <p><span class="gray">Textbook: </span>{{matchModalData.title}}, {{matchModalData.course_code}}</p>
+          <p><span class="gray">Description: </span>{{matchModalData.description}}</p>
+          <p v-if="!matchModalData.buy">
+            <span class="gray">Price: </span>
+            ${{matchModalData.price.toFixed(2)}}
+          </p>
+          <p v-if="!matchModalData.buy" class="gray">Photo:</p>
+          <p class="gray" style="padding-bottom: 3px">Contact info:</p>
+          <p class="contact"><i class="far fa-user"></i>{{matchModalData.user.user_name}}</p>
+          <p class="contact">
+            <i class="far fa-envelope"></i>
+            <a v-bind:href="'mailto:' + matchModalData.user.contact">{{matchModalData.user.contact}}</a>
+          </p>
         </div>
       </div>
     </div>
@@ -99,15 +98,13 @@ export default {
   data: function () {
     return {
       matches: [],
-      modal: false,
-      modal_data: {
-        user: {}
-      },
       rowHoverIndex: -1,
+      showMatchModal: false,
+      matchModalData: null,
     };
   },
   methods: {
-    cancelBook: function (_id) {
+    cancelBook: function () {
       // TODO:
       console.log(_id);
       axios.post('http://localhost:3000/delete', {
@@ -121,14 +118,10 @@ export default {
     isRowHovered: function (index) {
       return index == this.rowHoverIndex;
     },
-    openModal(match) {
-      console.log(match)
-      this.modal_data = match;
-      this.modal = true;
+    openMatchModal: function (modal) {
+      this.matchModalData = modal;
+      this.showMatchModal = true;
     },
-    closeModal() {
-      this.modal = false;
-    }
   },
   mounted: function () {
     axios.get('http://localhost:3000/match', {
@@ -142,10 +135,11 @@ export default {
     .then(response => {
       this.matches = response.data;
       console.log(this.matches);
+      console.log('here');
+      console.log(response.data);
     })
     .catch(err => {console.log(err)});
   },
-  
 };
 </script>
 
@@ -155,17 +149,16 @@ export default {
 }
 
 .items-item {
-  margin: 10px;
+  margin: 5px;
   display: flex;
   flex-direction: column;
 }
-
 .item-header {
   width: 100%;
 }
 .item-table {
   width: 100%;
-  padding-top: 10px;
+  border-spacing: 0;
 }
 .item-name {
   font-weight: bold;
@@ -175,84 +168,21 @@ export default {
   width: 10%;
 }
 .item-options {
+  text-align: center;
   width: 10%;
-  text-align: right;
 }
 
 .item-contents {
   width: 100%;
 }
 .item-content {
-  display: flex;
-  justify-content: space-around;
+  /*display: flex;
+  justify-content: space-around;*/
 }
-
-td {
-  padding: 2px;
-}
-
-.modal-backdrop {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: rgba(0, 0, 0, 0.3);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.item-modal {
-  background-color: white;
-  box-shadow: 2px 2px 20px 1px rgba(0, 0, 0, 0.3);
-  overflow-x: auto;
-  display: flex;
-  flex-direction: column;
-  min-width: 35vw;
-}
-
-.btn-close {
-  border: none;
-  padding: 0px;
-  cursor: pointer;
-  font-weight: bold;
-  color: #1565c0;
-  background: transparent;
-}
-
-.modal-header,
-.modal-footer {
-  padding: 20px;
-  display: flex;
-}
-
-.modal-header {
-  border-bottom: 1px solid #eeeeee;
-  color: #1565c0;
-  justify-content: space-between;
-  font-size: 20px;
-  font-weight: bold;
-  padding-left: 30px;
-}
-
-.modal-footer {
-  border-top: 1px solid #eeeeee;
-  justify-content: center;
-}
-
-.modal-body {
-  position: relative;
-  padding: 30px;
-}
-
-p {
-  padding: 10px;
-}
-
 .content-table {
-  width: 95%;
+  width: 100%;
   text-align: left;
+  border-spacing: 0;
 }
 .content-table-header {
   color: grey;
@@ -270,18 +200,9 @@ p {
 .content-price {
   width: 10%;
 }
-
-.content-edition:hover,
-.content-user:hover,
-.content-contact:hover,
-.content-price:hover {
-  cursor: pointer;
-}
-
 .content-button {
-  color: lightgrey;
+  text-align: center;
   width: 10%;
-  text-align: right;
 }
 .content-button:hover {
   color: #1565c0;
@@ -296,7 +217,7 @@ p {
   font-size: 18px;
 }
 .options-btn:hover {
-  color: rgba(255, 0, 0, 0.719);
+  color: rgba(255, 0, 0, 0.637);
 }
 
 .no-matches {
@@ -304,22 +225,66 @@ p {
   color: grey;
 }
 
-.gray {
-  color: grey;
-  font-size: 14px;
+.match-row:hover {
+  background-color: rgba(128, 128, 128, 0.2);
 }
 
-.contact {
-  padding: 3px 10px;
-}
 
-.contact i {
-  padding-right: 8px;
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.item-modal {
+  background-color: white;
+  box-shadow: 2px 2px 20px 1px rgba(0, 0, 0, 0.3);
+  overflow-x: auto;
+  display: flex;
+  flex-direction: column;
+  min-width: 35vw;
+}
+.btn-close {
+  border: none;
+  padding: 0px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #1565c0;
+  background: transparent;
+}
+.modal-header,
+.modal-footer {
+  padding: 20px;
+  display: flex;
+}
+.modal-header {
+  border-bottom: 1px solid #eeeeee;
+  color: #1565c0;
+  justify-content: space-between;
+  font-size: 20px;
+  font-weight: bold;
+  padding-left: 30px;
+}
+.modal-footer {
+  border-top: 1px solid #eeeeee;
+  justify-content: center;
+}
+.modal-body {
+  position: relative;
+  padding: 30px;
+}
+p {
+  padding: 10px;
 }
 
 hr {
   color: grey;
-  margin: 15px 5px;
+  margin: 10px 0px;
   border: 0.3px solid lightgrey;
 }
 </style>
