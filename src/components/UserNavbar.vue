@@ -152,10 +152,10 @@ export default {
           }
         })
       .then(res => {
-        console.log(res.data)
-        if (res.data) {
-          axios.get('http://localhost:3000/notify').then(res => console.log(res))
-        }
+        // console.log(res.data)
+        // if (res.data) {
+        //   axios.get('http://localhost:3000/notify').then(res => console.log(res))
+        // }
         this.$store.dispatch('refreshAllBooks');
       });
       this.courseCode = null;

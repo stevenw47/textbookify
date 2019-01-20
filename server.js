@@ -27,7 +27,7 @@ MongoClient.connect('mongodb://uofthacks:uofthacks6@ds018258.mlab.com:18258/uoft
   });
 
 function getMatches(courseCode, buy) {
-  const findBuy = !(buy === 'true');
+  const findBuy = !(buy == 'true');
   return new Promise((resolve, reject) => {
     const collection = db.collection('books');
 
@@ -45,18 +45,34 @@ function getMatches(courseCode, buy) {
 }
 
 app.post('/addition', (req, res) => {
+  const findBuy = !(req.body.buy == 'true' || req.body.buy == true);
+  console.log(findBuy);
+  console.log(req.body.course_code);
   db.collection('books').insertOne(req.body, (err, result) => {
     if (err) return console.log(err);
     console.log('saved to database');
   });
-  getMatches(req.body.course_code, req.body.buy).then((arr) => {
-    // res.send('arr.length');
+  db.collection('books').find({
+    course_code: req.body.course_code,
+    buy: findBuy,
+    'user.user_id' : 1,
+    date_sold: null
+  }).toArray().then((arr) => {
+  //   // res.send('arr.length');
     console.log(arr)
     if (arr.length) {
-      res.send('yes');
+      client.messages
+      .create({
+        body: `You have a new Textbookify match for your ${arr[0].course_code} textbook!`,
+        from: '+15874172430',
+        to: '+14166299630',
+      })
+      .then(message => console.log(message.sid))
+      .done();
+    res.send('notified');
     }
   });
-  // res.send('added book to database');
+  res.send('added book to database');
 });
 
 app.get('/books', (req, res) => {
@@ -160,6 +176,7 @@ app.get('/textbook/analytics', (req, res) => {
     });
 });
 
+/*
 app.get('/notify', (req, res) => {
   client.messages
     .create({
@@ -171,3 +188,4 @@ app.get('/notify', (req, res) => {
     .done();
   res.send('notified');
 });
+*/
