@@ -1,29 +1,15 @@
 # Textbookify
 
-## Project setup
-```
-yarn install
-```
+### Login Page
+<img src="https://imgur.com/7dU3rji.png" width="900">
 
-### Compiles and hot-reloads for development
-```
-yarn run serve
-```
+### Home Page
+<img src="https://i.imgur.com/B0gn9E8.png" width="900">
 
-### Compiles and minifies for production
+## Setup
 ```
-yarn run build
+yarn install   # Project setup
+yarn run serve # Compiles and hot-reloads for development
+yarn run build # Compiles and minifies for production
+yarn run lint  # Lints and fixes files
 ```
-
-### Run your tests
-```
-yarn run test
-```
-
-### Lints and fixes files
-```
-yarn run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
