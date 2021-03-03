@@ -1,10 +1,12 @@
 # Textbookify
 
 ### Login Page
-<img src="https://imgur.com/7dU3rji.png" width="900">
+![Login Page](https://user-images.githubusercontent.com/26861514/109874673-62df0680-7caa-11eb-9475-cc8e844c241c.png)
+
 
 ### Home Page
-<img src="https://i.imgur.com/B0gn9E8.png" width="900">
+![Home Page](https://user-images.githubusercontent.com/26861514/109874820-97eb5900-7caa-11eb-9b0b-e6663ae23aaf.png)
+
 
 ## Setup
 ```
